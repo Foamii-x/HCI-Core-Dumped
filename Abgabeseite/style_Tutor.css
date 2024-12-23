@@ -1,0 +1,48 @@
+h1 {
+    margin-bottom: 0;
+}
+hr {
+    margin-top: 0;   
+    width: 100%; 
+    float: left;
+}
+.download-box {
+    width: 100px;
+    height: 25px; 
+    border: 1px solid #000; 
+    display: inline-block;
+    text-align: center;
+    line-height: 20px; 
+    font-size: 16px; 
+}
+.upload-box {
+    width: 90px; 
+    height: 25px; 
+    border: 1px solid #000; 
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    font-size: 16px; 
+}
+input[type="number"] {
+    width: 70px; 
+}
+input[type="checkbox"] {
+    width: 25px;
+    height: 20px;
+    transform: scale(1.5);
+    margin: 0; 
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+th, td {
+    border: 0px solid #000;
+    text-align: center;
+    padding: 10px 15px; 
+}
+th h2, td h3 {
+    margin: 0;
+}
