@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        h1 {
+            margin-left: 6%;
+            margin-top: 2%;
+            font-size: 40px;
+        }
+
+        input {
+            width: 70%;
+            margin-bottom: 5%;
+            margin-top: 1%;
+            margin-left: 6%;
+            font-size: 30px;
+            border: 2px solid #888888;
+        }
+
+        table {
+            margin-left: 6%;
+            width: 25%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 2px solid #888888;
+        }
+
+        tr {
+            border-bottom: 2px solid #888888;
+        }
+
+        tr:hover {
+            background-color: aqua;
+        }
+
+        td {
+            padding: 20px;
+            font-size: 30px;
+            /* border: 1px solid #ddd; */
+        }
+
+        .r {
+            text-align: right;
+        }
+
+        p {
+            margin-left: 6%;
+            font-size: 36px;
+        
+        }
+
+
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Kurs zum Suchen eingeben</h1>
+        <input type="text", placeholder="Kurs suchen", id="suchFeld">
+    </div>
+    <div>
+        <table>
+        </table>
+    </div>
+    <p></p>
+
+
+    <script>
+        var kurse = ["Kurs A", "Kurs B", "Kurs C", "Kurs D", "Kurs E"];
+    
+        const suchFeld = document.getElementById('suchFeld');
+        suchFeld.addEventListener('input', (suche) => {
+            update(suche.target.value);
+        });
+    
+        function update(suche){
+            var table = document.querySelector('table');
+            table.innerHTML = '';
+            var ngef = true;
+            var pp = document.querySelector('p');
+            pp.textContent = '';
+
+            for(var i = 0; i < kurse.length; i++){
+                
+                if (suche === '' || kurse[i].toLowerCase().includes(suche.toLowerCase())){
+                    ngef = false;
+                    var feld = document.createElement('tr');
+                    feld.id = kurse[i];
+                    var name = document.createElement('td');
+                    name.textContent = kurse[i];
+
+                    var p = document.createElement('td');
+                    p.textContent = '>';
+                    p.classList.add('r');
+                    
+                    feld.appendChild(name);
+                    feld.appendChild(p);
+
+                    (function(id) {
+                        feld.addEventListener('click', () => {
+                            öffnen(id);
+                        });
+                    })(feld.id);
+
+                    table.appendChild(feld); 
+                }
+            }
+            
+            var input = document.querySelector('input');
+            if(ngef){
+                pp.textContent = 'Nicht gefunden';
+                table.style.border = 'none';
+                input.style.background = '#ff6666';
+            } else{
+                table.style.border = '';
+                input.style.background = '';
+            }
+        }
+
+        function öffnen(seite){
+            var url = window.location.href.split('.')[0];
+            window.location.href = url + '/' + seite + '.html';
+
+
+            // var newUrl = currentUrl + id;
+            // window.location.href = newUrl;
+            // window.location.href = window.location.href + seite;
+        }
+    
+        window.onload = function(){
+        update('');
+    }
+    
+    
+    </script>
+</body>
