@@ -15,6 +15,9 @@ hr {
     line-height: 20px; 
     font-size: 16px; 
 }
+.download-box:hover {
+    background-color: #0056b3;
+}
 .upload-box {
     width: 90px; 
     height: 25px; 
@@ -23,6 +26,15 @@ hr {
     text-align: center;
     line-height: 20px;
     font-size: 16px; 
+}
+.upload-box:hover {
+    background-color: #e9f5ff;
+}
+.upload-box.drag-over {
+    background-color: #cceeff;
+}
+.file-input {
+    display: none;
 }
 input[type="number"] {
     width: 70px; 
