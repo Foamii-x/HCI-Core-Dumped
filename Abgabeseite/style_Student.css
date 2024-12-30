@@ -19,6 +19,18 @@ hr {
 .download-box:hover {
     background-color: #0056b3;
 }
+.evaluation-box {
+    width: 100px;
+    height: 25px; 
+    border: 1px solid #000; 
+    display: inline-block;
+    text-align: center;
+    line-height: 20px; 
+    font-size: 16px; 
+}
+.evaluation-box:hover {
+    background-color: #0056b3;
+}
 .upload-box {
     width: 90px; 
     height: 25px; 
