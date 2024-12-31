@@ -67,11 +67,11 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"].checked {
-    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="green"%3E%3Cpath d="M13.485 1.757a1 1 0 011.415 0l.07.071a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l.071-.07a1 1 0 011.414 0L6 8.586l7.485-7.485z"/%3E%3C/svg%3E');
+    background-image: url("https://e7.pngegg.com/pngimages/959/696/png-clipart-green-check-check-mark-tick-tick-angle-leaf-thumbnail.png");
 }
 
 input[type="checkbox"].unchecked {
-    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="red"%3E%3Cpath d="M4.646 4.646a.5.5 0 01.708 0L8 7.293l2.646-2.647a.5.5 0 11.708.708L8.707 8l2.647 2.646a.5.5 0 01-.708.708L8 8.707l-2.646 2.647a.5.5 0 01-.708-.708L7.293 8 4.646 5.354a.5.5 0 010-.708z"/%3E%3C/svg%3E');
+    background-image: url("https://e7.pngegg.com/pngimages/752/425/png-clipart-red-x-mark-illustration-x-mark-cross-computer-icons-cartoon-geometry-miscellaneous-angle-thumbnail.png");
 }
 table {
     width: 100%;
