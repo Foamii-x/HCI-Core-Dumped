@@ -42,17 +42,34 @@ uploadSections.forEach((section) => {
     if (isAfterEnd) {
         assignment.style.color = 'green';
         checkbox.checked = true;
+        checkbox.classList.remove('unchecked');
+        checkbox.classList.add('checked');
         checkbox.disabled = true;
+        console.log(`Assignment ${sectionId}: Checkbox class is now ${checkbox.className}`);
     } else if (isInProgress) {
-        assignment.style.color = filesBySection[sectionId].length > 0 ? 'green' : 'red';
-        checkbox.checked = false;
+        if (filesBySection[sectionId].length > 0) {
+            assignment.style.color = 'green';
+            checkbox.checked = true;
+            checkbox.classList.remove('unchecked');
+            checkbox.classList.add('checked');
+            console.log(`Assignment ${sectionId}: Checkbox class is now ${checkbox.className}`);
+        } else {
+            assignment.style.color = 'red';
+            checkbox.checked = false;
+            checkbox.classList.remove('checked');
+            checkbox.classList.add('unchecked');
+            console.log(`Assignment ${sectionId}: Checkbox class is now ${checkbox.className}`);
+        }
         checkbox.disabled = true;
     } else {
         assignment.style.color = 'black';
         checkbox.checked = false;
+        checkbox.classList.remove('checked');
+        checkbox.classList.add('unchecked');
         checkbox.disabled = true;
+        console.log(`Assignment ${sectionId}: Checkbox class is now ${checkbox.className}`);
     }
-
+    
     // Upload/Download deaktivieren für bestimmte Status
     uploadZone.style.pointerEvents = isInProgress ? 'auto' : 'none';
     uploadZone.style.opacity = isInProgress ? '1' : '0.5';
@@ -106,7 +123,11 @@ uploadSections.forEach((section) => {
             filesBySection[sectionId] = Array.from(files);
             displayFileNames(uploadZone, filesBySection[sectionId]);
             assignment.style.color = 'green';
+            checkbox.classList.remove('unchecked');
+            checkbox.classList.add('checked');
             checkbox.checked = true;
+            downloadBtn.style.pointerEvents = 'auto';
+            downloadBtn.style.opacity = '1';
         }
     });
 
@@ -117,7 +138,11 @@ uploadSections.forEach((section) => {
             filesBySection[sectionId] = Array.from(files);
             displayFileNames(uploadZone, filesBySection[sectionId]);
             assignment.style.color = 'green';
+            checkbox.classList.remove('unchecked');
+            checkbox.classList.add('checked');
             checkbox.checked = true;
+            downloadBtn.style.pointerEvents = 'auto';
+            downloadBtn.style.opacity = '1';
         }
     });
 
