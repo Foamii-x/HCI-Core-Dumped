@@ -10,7 +10,7 @@ hr {
 .download-box {
     width: 100px;
     height: 25px; 
-    border: 1px solid #000; 
+    border: 3px solid #000; 
     display: inline-block;
     text-align: center;
     line-height: 20px; 
@@ -22,7 +22,7 @@ hr {
 .evaluation-box {
     width: 100px;
     height: 25px; 
-    border: 1px solid #000; 
+    border: 3px solid #000; 
     display: inline-block;
     text-align: center;
     line-height: 20px; 
@@ -34,17 +34,17 @@ hr {
 .upload-box {
     width: 90px; 
     height: 25px; 
-    border: 1px solid #000; 
+    border: 3px solid #000; 
     display: inline-block;
     text-align: center;
     line-height: 20px;
     font-size: 16px; 
 }
 .upload-box:hover {
-    background-color: #e9f5ff;
+    background-color: #0056b3;
 }
 .upload-box.drag-over {
-    background-color: #cceeff;
+    background-color: #0056b3;
 }
 .file-input {
     display: none;
@@ -74,15 +74,15 @@ input[type="checkbox"].unchecked {
     background-image: url("https://e7.pngegg.com/pngimages/752/425/png-clipart-red-x-mark-illustration-x-mark-cross-computer-icons-cartoon-geometry-miscellaneous-angle-thumbnail.png");
 }
 table {
-    width: 100%;
+    width: 95%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 30px;
 }
 th, td {
     border: 0px solid #000;
     text-align: center;
-    padding: 10px 15px; 
+    padding: 10px 10px; 
 }
-th h2, td h3 {
+th h2, td h3 td h2 {
     margin: 0;
 }

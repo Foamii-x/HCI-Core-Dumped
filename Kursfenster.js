@@ -15,6 +15,13 @@ const evaluationsBySection = {
     4: []
 };
 
+const pointsBySection = {
+    1: 9, // 9 von 10 Punkte für Assignment 1
+    2: null, // Assignment 2 noch nicht bewertet
+    3: null, // Noch keine Punkte
+    4: null  // Noch keine Punkte
+};
+
 const currentDate = new Date();
 
 uploadSections.forEach((section) => {
@@ -24,41 +31,72 @@ uploadSections.forEach((section) => {
     const downloadBtn = section.querySelector('.download-box[data-download]');
     const evaluationDownloadBtn = section.querySelector('.evaluation-box');
     const checkbox = section.querySelector('input[type="checkbox"]');
-    const assignment = section.querySelector('td h3');
+    const assignment = section.querySelector('td h2');
+    const pointsInput = section.querySelector('input[type="number"]'); // Punkte-Feld
+    const endDateElement = section.querySelector('td:nth-child(5) h3'); // 5. Spalte für Datum
+    const endTimeElement = section.querySelector('td:nth-child(6) h3'); // 6. Spalte für Uhrzeit
 
     const assignmentPeriods = {
-        1: { startDate: new Date('2023-01-01'), endDate: new Date('2023-02-01') },
-        2: { startDate: new Date('2023-01-15'), endDate: new Date('2023-02-15') },
-        3: { startDate: new Date('2024-01-01'), endDate: new Date('2025-02-01') },
-        4: { startDate: new Date('2025-03-01'), endDate: new Date('2026-04-01') }
+        1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
+        2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
+        3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-02-01T23:59:59') },
+        4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2026-04-01T21:00:00') }
     };
 
     const period = assignmentPeriods[sectionId];
     const isBeforeStart = currentDate < period.startDate;
     const isAfterEnd = currentDate > period.endDate;
     const isInProgress = !isBeforeStart && !isAfterEnd;
+    
+    function formatDateTime(date) {
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return {
+            date: `${day}.${month}.${year}`,
+            time: `${hours}:${minutes}`
+        };
+    }
 
+    // Enddatum und Uhrzeit anzeigen
+    if (endDateElement && endTimeElement) {
+        const formattedDateTime = formatDateTime(period.endDate);
+        endDateElement.textContent = `bis: ${formattedDateTime.date}`;
+        endTimeElement.textContent = `${formattedDateTime.time} Uhr`;
+    }
+
+    // Punkte anzeigen, wenn bewertet
+    if (evaluationsBySection[sectionId].length > 0 && pointsBySection[sectionId] !== null) {
+        pointsInput.value = pointsBySection[sectionId];
+        pointsInput.disabled = true; // Deaktivieren, damit es nicht bearbeitet werden kann
+    }
     // Update UI basierend auf Status
     if (isAfterEnd) {
-        assignment.style.color = 'green';
-        checkbox.checked = true;
-        checkbox.classList.remove('unchecked');
-        checkbox.classList.add('checked');
+        if(filesBySection[sectionId].length > 0){
+            assignment.style.color = 'green';
+            checkbox.checked = true;
+            checkbox.classList.remove('unchecked');
+            checkbox.classList.add('checked');
+        } else{
+            assignment.style.color = 'red';
+            checkbox.checked = false;
+            checkbox.classList.remove('checked');
+            checkbox.classList.add('unchecked');
+        }
         checkbox.disabled = true;
-        console.log(`Assignment ${sectionId}: Checkbox class is now ${checkbox.className}`);
     } else if (isInProgress) {
         if (filesBySection[sectionId].length > 0) {
             assignment.style.color = 'green';
             checkbox.checked = true;
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
-            console.log(`Assignment ${sectionId}: Checkbox class is now ${checkbox.className}`);
         } else {
             assignment.style.color = 'red';
             checkbox.checked = false;
             checkbox.classList.remove('checked');
             checkbox.classList.add('unchecked');
-            console.log(`Assignment ${sectionId}: Checkbox class is now ${checkbox.className}`);
         }
         checkbox.disabled = true;
     } else {
