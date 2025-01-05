@@ -50,6 +50,37 @@
         
         }
 
+        .posAvatar {
+            position: fixed;
+            bottom: 0px;
+            right: 0px; 
+            width: 400px;
+            height: auto;
+        }
+
+        .speech-bubble {
+            position: fixed;
+            bottom: 320px; /* Position relativ zum Avatar-Bild */
+            right: 200px;
+            width: 400px;
+            font-size: 36px;
+            padding: 30px;
+            background: #fff;
+            border: 2px solid #888888;
+            border-radius: 90px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; 
+            right: 80px;
+            border: 20px solid transparent;
+            border-top-color: #888888;
+            border-bottom: 0;
+        }
+
 
     </style>
 </head>
@@ -117,10 +148,30 @@
             }
         }
 
-        function öffnen(seite){
-            var url = window.location.href.split('.')[0];
-            window.location.href = url + '/' + seite + '.html';
+        function showAvatar(text){
+            var img = document.createElement('img');
+            img.src = 'avatar.png';
+            img.classList.add('posAvatar');
+            document.body.appendChild(img);
 
+            var bubble = document.createElement('div');
+            bubble.classList.add('speech-bubble');
+            bubble.textContent = text;
+            bubble.addEventListener('click', () => {
+                öffnen('Spielwiese', 'Kurs A');
+                // alert('df');
+            });
+            document.body.appendChild(bubble);
+        }
+
+        function öffnen(seite, kurs){
+            var url = window.location.href;         //.split('.')[0];
+            var newUrl = url.substring(0, url.lastIndexOf('/'));
+            window.location.href = newUrl + '/' + seite + '.html'
+            // alert('a');
+
+
+            // window.location.href = url + '/' + seite + '.html';
 
             // var newUrl = currentUrl + id;
             // window.location.href = newUrl;
@@ -129,6 +180,7 @@
     
         window.onload = function(){
         update('');
+        showAvatar("Die nächste Abgabe ist im Kurs ? und ist bis zum xx.xx.xxxx");
     }
     
     
