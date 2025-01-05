@@ -74,6 +74,6 @@ th, td {
     text-align: center;
     padding: 10px 10px; 
 }
-th h2, td h3 td h2 {
+th h2, td h2 {
     margin: 0;
 }
