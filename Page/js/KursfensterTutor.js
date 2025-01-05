@@ -2,49 +2,52 @@ const uploadSections = document.querySelectorAll('.upload-section');
 
 // Abgaben getrennt speichern
 const filesBySection = {
-    1: [new File(["Abgabe A1"], "Assignment1.txt")],
-    2: [new File(["Abgabe A2"], "Assignment2.txt")],
+    1: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
+    2: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
     3: [],
     4: []
 };
+const downloadBySection = {
+    1: [new File(["Abgabe A2, Gruppe 1"], "Assignment2.txt")],
+    2: [new File(["Abgabe A2, Gruppe 2"], "Assignment2.txt")],
+    3: [new File(["Abgabe A2, Gruppe 3"], "Assignment2.txt")],
+    4: [new File(["Abgabe A2, Gruppe 4"], "Assignment2.txt")]
+};
 
-// Funktion zur Aktualisierung der UI
-function updateUI(sectionId, groupLabel, checkbox, uploadZone, downloadBtn) {
-    if (filesBySection[sectionId].length > 0) {
+const pointsBySection = {
+    1: 9, // 9 von 10 Punkte für Assignment 1
+    2: 10, // Assignment 2 noch nicht bewertet
+    3: null, // Noch keine Punkte
+    4: null  // Noch keine Punkte
+};
+
+// Initialisierung der Upload- und Download-Funktionalität
+uploadSections.forEach((section) => {
+    const sectionId = parseInt(section.dataset.section);
+    const uploadZone = section.querySelector('.upload-box'); // Upload-Box
+    const downloadBtn = section.querySelector('.download-box[data-download]'); // Download-Box
+    const checkbox = section.querySelector('input[type="checkbox"]'); // Checkbox
+    const fileInput = section.querySelector('.file-input');
+    const pointsInput = section.querySelector('input[type="number"]');
+    const groupLabel = section.querySelector('td h2'); // Gruppenbeschriftung
+
+    if(filesBySection[sectionId].length > 0){
         groupLabel.style.color = 'green';
         checkbox.checked = true;
         checkbox.classList.remove('unchecked');
         checkbox.classList.add('checked');
-        downloadBtn.style.pointerEvents = 'auto';
-        downloadBtn.style.opacity = '1';
-    } else {
+    } else{
         groupLabel.style.color = 'red';
         checkbox.checked = false;
         checkbox.classList.remove('checked');
         checkbox.classList.add('unchecked');
-        downloadBtn.style.pointerEvents = 'none';
-        downloadBtn.style.opacity = '0.5';
     }
-}
+    checkbox.disabled = true;
 
-// Initialisierung der Upload- und Download-Funktionalität
-uploadSections.forEach((section) => {
-    const sectionId = parseInt(section.querySelector('.upload-box').dataset.upload); // Gruppen-ID
-    const uploadZone = section.querySelector('.upload-box'); // Upload-Box
-    const downloadBtn = section.querySelector('.download-box[data-download]'); // Download-Box
-    const checkbox = section.querySelector('input[type="checkbox"]'); // Checkbox
-    const groupLabel = section.querySelector('td h2'); // Gruppenbeschriftung
-
-    // Initiales UI-Update
-    updateUI(sectionId, groupLabel, checkbox, uploadZone, downloadBtn);
-
-    // Erstellen und Anhängen eines unsichtbaren Dateieingabe-Elements
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.multiple = true;
-    fileInput.style.display = 'none'; // Unsichtbar
-    section.appendChild(fileInput);
-
+    if (filesBySection[sectionId].length > 0 && pointsBySection[sectionId] !== null) {
+        pointsInput.value = pointsBySection[sectionId];
+        pointsInput.disabled = true; // Deaktivieren, damit es nicht bearbeitet werden kann
+    }
     // Klick-basierter Upload
     uploadZone.addEventListener('click', () => {
         fileInput.click();
@@ -54,7 +57,10 @@ uploadSections.forEach((section) => {
         const files = e.target.files;
         if (files.length) {
             filesBySection[sectionId] = Array.from(files);
-            updateUI(sectionId, groupLabel, checkbox, uploadZone, downloadBtn);
+            groupLabel.style.color = 'green';
+            checkbox.classList.remove('unchecked');
+            checkbox.classList.add('checked');
+            checkbox.checked = true;
         }
     });
 
@@ -74,13 +80,17 @@ uploadSections.forEach((section) => {
         const files = e.dataTransfer.files;
         if (files.length) {
             filesBySection[sectionId] = Array.from(files);
-            updateUI(sectionId, groupLabel, checkbox, uploadZone, downloadBtn);
+            displayFileNames(uploadZone, filesBySection[sectionId]);
+            groupLabel.style.color = 'green';
+            checkbox.classList.remove('unchecked');
+            checkbox.classList.add('checked');
+            checkbox.checked = true;
         }
     });
 
     // Download-Button Logik
     downloadBtn.addEventListener('click', () => {
-        const files = filesBySection[sectionId];
+        const files = downloadBySection[sectionId];
         if (files.length > 0) {
             const zip = new JSZip();
             files.forEach((file) => zip.file(file.name, file));
@@ -91,7 +101,22 @@ uploadSections.forEach((section) => {
                 link.click();
             });
         } else {
-            alert('No files uploaded yet!');
+            alert('No files uploaded!');
+        }
+    });
+    pointsInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const pointsValue = parseInt(pointsInput.value, 10);
+
+            // Check if the entered value is valid
+            if (pointsValue >= 0 && pointsValue <= 10) {
+                pointsBySection[sectionId] = pointsValue;
+                pointsInput.disabled = true; // Disable the points input after pressing Enter
+            } else {
+                // Optional: You could reset the input if the value is not valid
+                pointsInput.value = '';
+                alert('Please enter a valid point value between 0 and 10.');
+            }
         }
     });
 });
