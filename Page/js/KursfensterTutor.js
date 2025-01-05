@@ -14,6 +14,13 @@ const downloadBySection = {
     4: [new File(["Abgabe A2, Gruppe 4"], "Assignment2.txt")]
 };
 
+const pointsBySection = {
+    1: 9, // 9 von 10 Punkte für Assignment 1
+    2: 10, // Assignment 2 noch nicht bewertet
+    3: null, // Noch keine Punkte
+    4: null  // Noch keine Punkte
+};
+
 // Initialisierung der Upload- und Download-Funktionalität
 uploadSections.forEach((section) => {
     const sectionId = parseInt(section.dataset.section);
@@ -21,6 +28,7 @@ uploadSections.forEach((section) => {
     const downloadBtn = section.querySelector('.download-box[data-download]'); // Download-Box
     const checkbox = section.querySelector('input[type="checkbox"]'); // Checkbox
     const fileInput = section.querySelector('.file-input');
+    const pointsInput = section.querySelector('input[type="number"]');
     const groupLabel = section.querySelector('td h2'); // Gruppenbeschriftung
 
     if(filesBySection[sectionId].length > 0){
@@ -36,6 +44,10 @@ uploadSections.forEach((section) => {
     }
     checkbox.disabled = true;
 
+    if (filesBySection[sectionId].length > 0 && pointsBySection[sectionId] !== null) {
+        pointsInput.value = pointsBySection[sectionId];
+        pointsInput.disabled = true; // Deaktivieren, damit es nicht bearbeitet werden kann
+    }
     // Klick-basierter Upload
     uploadZone.addEventListener('click', () => {
         fileInput.click();
