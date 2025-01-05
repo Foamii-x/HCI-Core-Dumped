@@ -1,3 +1,27 @@
+document.addEventListener('DOMContentLoaded', function() {
+    var titel = document.querySelector('h1');
+    var kurs = sessionStorage.getItem('kurs');
+    var assignment = sessionStorage.getItem('Assignment');
+    titel.textContent = kurs + " > " + assignment;
+
+    var img = document.createElement('img');
+    img.src = '../style/avatar.png';
+    img.classList.add('posAvatar');
+    document.body.appendChild(img);
+
+    var bubble = document.createElement('div');
+    bubble.classList.add('speech-bubble');
+    bubble.textContent = "Gruppe 03 und Gruppe 04 müssen noch bewertet werden!";
+   
+
+    document.body.appendChild(bubble);
+});
+
+function zurück(){
+    window.location.href = sessionStorage.getItem('letzteSeite');
+}
+
+
 const uploadSections = document.querySelectorAll('.upload-section');
 
 // Abgaben getrennt speichern

@@ -1,6 +1,10 @@
 /*style_Tutor.css*/
+body {
+    background-color: #f0f0f0;
+}
 h1 {
     margin-bottom: 0;
+    text-decoration: underline;
 }
 hr {
     margin-top: 0;   
@@ -76,4 +80,48 @@ th, td {
 }
 th h2, td h2 {
     margin: 0;
+}
+
+.posAvatar {
+    position: fixed;
+    bottom: 0px;
+    right: 0px; 
+    width: 400px;
+    height: auto;
+}
+
+.speech-bubble {
+    position: fixed;
+    bottom: 320px; 
+    right: 200px;
+    width: 550px;
+    font-size: 36px;
+    padding: 30px;
+    background: #fff;
+    border: 2px solid #888888;
+    border-radius: 90px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: default;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; 
+    right: 80px;
+    border: 20px solid transparent;
+    border-top-color: #888888;
+    border-bottom: 0;
+}
+button {
+    position: fixed;
+    bottom: 14px;
+    left: 14px; 
+    padding: 10px 20px;
+    font-size: 30px;
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
 }

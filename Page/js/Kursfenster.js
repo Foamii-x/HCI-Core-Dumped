@@ -1,7 +1,31 @@
-var titel = document.querySelector('h1');
-var kurs = sessionStorage.getItem('kurs');
-titel.textContent = kurs;
+document.addEventListener('DOMContentLoaded', function() {
+    var titel = document.querySelector('h1');
+    var kurs = sessionStorage.getItem('kurs');
+    titel.textContent = kurs;
 
+    var img = document.createElement('img');
+    img.src = '../style/avatar.png';
+    img.classList.add('posAvatar');
+    document.body.appendChild(img);
+
+    var bubble = document.createElement('div');
+    bubble.classList.add('speech-bubble');
+
+    var currentDate = new Date();
+    var dueDate = new Date('2025-02-01T23:59:59');
+    var timeDifference = dueDate - currentDate;
+
+    var daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    var hoursRemaining = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    bubble.textContent = `Du hast noch ${daysRemaining} Tage und ${hoursRemaining} Stunden Zeit für Assignment 03`;
+
+    document.body.appendChild(bubble);
+});
+
+function zurück(){
+    window.location.href = sessionStorage.getItem('letzteSeiteK');
+}
 
 const uploadSections = document.querySelectorAll('.upload-section');
 

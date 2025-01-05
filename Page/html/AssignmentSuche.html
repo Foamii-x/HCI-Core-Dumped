@@ -3,31 +3,54 @@
     <meta charset="UTF-8">
     <title>Core-Dumped</title>
     <style>
+
         body {
             background-color: #f0f0f0;
         }
 
         h1 {
-            margin-left: 6%;
+            margin-left: 3%;
             margin-top: 2%;
+            margin-bottom: 4%;
             font-size: 40px;
+            text-decoration: underline;
+        }
+
+        h2 {
+            margin-left: 12%;
+            /* margin-top: 2%; */
+            margin-bottom: 3px;
+            font-size: 34px;
         }
 
         input {
             width: 70%;
             margin-bottom: 5%;
-            margin-top: 1%;
-            margin-left: 6%;
+            margin-top: 0%;
+            margin-left: 12%;
             font-size: 30px;
             border: 2px solid #888888;
         }
 
         table {
-            margin-left: 6%;
+            margin-left: 12%;
             width: 25%;
             border-collapse: collapse;
             border-spacing: 0;
             border: 2px solid #888888;
+        }
+
+        button {
+            position: fixed;
+            bottom: 14px;
+            left: 14px; 
+            padding: 10px 20px;
+            font-size: 30px;
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
         }
 
         tr {
@@ -43,6 +66,7 @@
         td {
             padding: 20px;
             font-size: 30px;
+            /* border: 1px solid #ddd; */
         }
 
         .r {
@@ -67,7 +91,7 @@
             position: fixed;
             bottom: 320px;
             right: 200px;
-            width: 600px;
+            width: 400px;
             font-size: 36px;
             padding: 30px;
             background: #fff;
@@ -92,18 +116,20 @@
 </head>
 <body>
     <div>
-        <h1>Kurs zum Suchen eingeben</h1>
-        <input type="text", placeholder="Kurs suchen", id="suchFeld">
+        <h1></h1>
+        <h2>Assignment zum Suchen eingeben</h2>
+        <input type="text", placeholder="Assignment suchen", id="suchFeld">
     </div>
     <div>
         <table>
         </table>
     </div>
     <p></p>
+    <button type="button" onclick="zurück()">Zurück</button>
 
 
     <script>
-        var kurse = ["Datenstrukturen und Algorithmen", "Diskrete Strukturen", "Elektrotechnik", "Grundlagen der IT-Sicherheit", "Grundlagen der Rechnerarchitektur", "Grundlagen der Softwaretechnik", "Grundlagen digitaler Systeme", "Grundlagen Mensch Computer Interaktion", "Grundlagen theoretischer Informatik", "Logik und formale Systeme", "Mathe 1", "Mathe 2", "Programmieren 1", "Programmieren 2"];
+        var kurse = ["Assignment 01", "Assignment 02", "Assignment 03", "Assignment 04", "Assignment 05", "Assignment 06", "Assignment 07", "Assignment 08", "Assignment 09", "Assignment 10", "Assignment 11"];
     
         const suchFeld = document.getElementById('suchFeld');
         suchFeld.addEventListener('input', (suche) => {
@@ -135,7 +161,7 @@
 
                     (function(id) {
                         feld.addEventListener('click', () => {
-                            sessionStorage.setItem('kurs', id);
+                            sessionStorage.setItem('Assignment', id);
                             öffnen();
                         });
                     })(feld.id);
@@ -166,15 +192,13 @@
 
             var user = sessionStorage.getItem('user');
             if(user === "tutor"){
-                bubble.textContent = "Grundlagen der Mensch Computer Interaktion neue Uploads verfügbar";
-            } else if(user === "normal"){
-                bubble.textContent = "Grundlagen der Mensch Computer Interaktion ist die Abgabe in 4 Tagen abzugeben!";
+                bubble.textContent = "Assignment 01 sind noch unbewertete Abgaben!";
             } else {
                 bubble.textContent = "Error";
             }
 
             bubble.addEventListener('click', () => {
-                sessionStorage.setItem('kurs', "Grundlagen der Mensch Computer Interaktion");
+                sessionStorage.setItem('Assignment', "Assignment 01");
                 öffnen();
             });
             document.body.appendChild(bubble);
@@ -182,15 +206,13 @@
 
         function öffnen(){
             var url = window.location.href;
-            sessionStorage.setItem('letzteSeiteK', url);
+            sessionStorage.setItem('letzteSeite', url);
             var newUrl = url.substring(0, url.lastIndexOf('/'));
             var user = sessionStorage.getItem('user');
 
             var seite;
             if(user === "tutor"){
-                seite = "AssignmentSuche";
-            } else if( user === "normal"){
-                seite = "Student";
+                seite = "Tutor";
             } else {
                 seite = "Error";
             }
@@ -202,11 +224,18 @@
             // window.location.href = newUrl;
             // window.location.href = window.location.href + seite;
         }
+
+        function zurück(){
+            window.location.href = sessionStorage.getItem('letzteSeiteK');
+        }
     
         window.onload = function(){
-        update('');
-        showAvatar();
-    }
+            var titel = document.querySelector('h1');
+            var kurs = sessionStorage.getItem('kurs');
+            titel.textContent = kurs;
+            update('');
+            showAvatar();
+        }
     
     
     </script>
