@@ -1,3 +1,8 @@
+var titel = document.querySelector('h1');
+var kurs = sessionStorage.getItem('kurs');
+titel.textContent = kurs;
+
+
 const uploadSections = document.querySelectorAll('.upload-section');
 
 // Abgaben und Bewertungen getrennt speichern

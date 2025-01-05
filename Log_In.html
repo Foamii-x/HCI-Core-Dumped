@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seite Name</title>
+    <title>Core-Dumped</title>
 </head>
 <style>
     body {
@@ -85,10 +84,25 @@
             <input type="password" id="passwort" name="passwort">
         </div>
         <div class="button-container">
-            <a href="kurssuche.html">
-                <button type="button">Anmelden</button>
-            </a>
+                <button type="button" onclick="öffnen()">Anmelden</button>
         </div>
     </div>
+    <script>
+        function öffnen(){
+            var url = window.location.href;
+            var newUrl = url.substring(0, url.lastIndexOf('/')) + "/page/html/kurssuche.html";
+
+            var name = document.getElementById('name').value;
+            var password = document.getElementById('passwort').value;
+            var user;
+            if(name === "Max" && password === "123"){
+                user = "tutor";
+            } else {
+                user = "normal";
+            }
+            sessionStorage.setItem('user', user);
+            window.location.href = newUrl; 
+        }
+    </script>
 </body>
 </html>

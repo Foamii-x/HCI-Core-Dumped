@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <title>Core-Dumped</title>
     <style>
 
         h1 {
@@ -129,7 +130,8 @@
 
                     (function(id) {
                         feld.addEventListener('click', () => {
-                            öffnen(id);
+                            sessionStorage.setItem('kurs', id);
+                            öffnen();
                         });
                     })(feld.id);
 
@@ -148,7 +150,7 @@
             }
         }
 
-        function showAvatar(text){
+        function showAvatar(){
             var img = document.createElement('img');
             img.src = '../style/avatar.png';
             img.classList.add('posAvatar');
@@ -156,20 +158,37 @@
 
             var bubble = document.createElement('div');
             bubble.classList.add('speech-bubble');
-            bubble.textContent = text;
+
+            var user = sessionStorage.getItem('user');
+            if(user === "tutor"){
+                bubble.textContent = "Kurs A neue Uploads verfügbar";
+            } else if(user === "normal"){
+                bubble.textContent = "Kurs B Abgabe ist in 4 Tagen abzugeben!";
+            } else {
+                bubble.textContent = "Error";
+            }
+
             bubble.addEventListener('click', () => {
-                öffnen('Spielwiese', 'Kurs A');
-                // alert('df');
+                sessionStorage.setItem('kurs', "Kurs B")         /////////////////////////
+                öffnen();
             });
             document.body.appendChild(bubble);
         }
 
-        function öffnen(seite, kurs){
-            var url = window.location.href;         //.split('.')[0];
+        function öffnen(){
+            var url = window.location.href;
             var newUrl = url.substring(0, url.lastIndexOf('/'));
-            window.location.href = newUrl + '/' + seite + '.html'
-            // alert('a');
+            var user = sessionStorage.getItem('user');
 
+            var seite;
+            if(user === "tutor"){
+                seite = "Tutor";
+            } else if( user === "normal"){
+                seite = "Student";
+            } else {
+                seite = "Error";
+            }
+            window.location.href = newUrl + "/" + seite + ".html";
 
             // window.location.href = url + '/' + seite + '.html';
 
@@ -180,7 +199,7 @@
     
         window.onload = function(){
         update('');
-        showAvatar("Die nächste Abgabe ist im Kurs ? und ist bis zum xx.xx.xxxx");
+        showAvatar();
     }
     
     
