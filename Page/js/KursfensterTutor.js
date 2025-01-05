@@ -104,4 +104,19 @@ uploadSections.forEach((section) => {
             alert('No files uploaded!');
         }
     });
+    pointsInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const pointsValue = parseInt(pointsInput.value, 10);
+
+            // Check if the entered value is valid
+            if (pointsValue >= 0 && pointsValue <= 10) {
+                pointsBySection[sectionId] = pointsValue;
+                pointsInput.disabled = true; // Disable the points input after pressing Enter
+            } else {
+                // Optional: You could reset the input if the value is not valid
+                pointsInput.value = '';
+                alert('Please enter a valid point value between 0 and 10.');
+            }
+        }
+    });
 });
