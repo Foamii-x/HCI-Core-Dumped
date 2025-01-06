@@ -12,7 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var bubble = document.createElement('div');
     bubble.classList.add('speech-bubble');
     bubble.textContent = "Gruppe 03 und Gruppe 04 müssen noch bewertet werden!";
-   
+
+    var closeButton = document.createElement('div');
+    closeButton.classList.add('closeButton');
+    closeButton.textContent = 'X';
+    closeButton.addEventListener('click', function() {
+        document.body.removeChild(img);
+        document.body.removeChild(bubble);
+        document.body.removeChild(closeButton);
+    });
+    document.body.appendChild(closeButton);
 
     document.body.appendChild(bubble);
 });

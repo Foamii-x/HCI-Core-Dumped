@@ -22,6 +22,7 @@ hr {
 }
 .download-box:hover {
     background-color: #0056b3;
+    cursor: pointer;
 }
 .evaluation-box {
     width: 100px;
@@ -34,6 +35,7 @@ hr {
 }
 .evaluation-box:hover {
     background-color: #0056b3;
+    cursor: pointer;
 }
 .upload-box {
     width: 90px; 
@@ -46,6 +48,7 @@ hr {
 }
 .upload-box:hover {
     background-color: #0056b3;
+    cursor: pointer;
 }
 .upload-box.drag-over {
     background-color: #0056b3;
@@ -65,7 +68,7 @@ input[type="checkbox"] {
     background-repeat: no-repeat;
     background-position: center;
     border: 1px solid #000;
-    cursor: pointer;
+    cursor: default;
     appearance: none;
     -webkit-appearance: none; 
 }
@@ -133,4 +136,19 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.closeButton {
+    position: fixed;
+    right: 30px;
+    bottom: 400px;
+    width: 30px;
+    height: 30px;
+    background: #ff6666;
+    color: white;
+    text-align: center;
+    /* line-height: 20px; */
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
 }

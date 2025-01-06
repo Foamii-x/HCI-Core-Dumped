@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var bubble = document.createElement('div');
     bubble.classList.add('speech-bubble');
 
+    var closeButton = document.createElement('div');
+    closeButton.classList.add('closeButton');
+    closeButton.textContent = 'X';
+    closeButton.addEventListener('click', function() {
+        document.body.removeChild(img);
+        document.body.removeChild(bubble);
+        document.body.removeChild(closeButton);
+    });
+    document.body.appendChild(closeButton);
+
     var currentDate = new Date();
     var dueDate = new Date('2025-02-01T23:59:59');
     var timeDifference = dueDate - currentDate;

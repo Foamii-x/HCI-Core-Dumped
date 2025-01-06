@@ -87,6 +87,21 @@
             border-bottom: 0;
         }
 
+        .closeButton {
+            position: fixed;
+            right: 30px;
+            bottom: 400px;
+            width: 30px;
+            height: 30px;
+            background: #ff6666;
+            color: white;
+            text-align: center;
+            /* line-height: 20px; */
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
 
     </style>
 </head>
@@ -163,6 +178,16 @@
 
             var bubble = document.createElement('div');
             bubble.classList.add('speech-bubble');
+
+            var closeButton = document.createElement('div');
+            closeButton.classList.add('closeButton');
+            closeButton.textContent = 'X';
+            closeButton.addEventListener('click', function() {
+                document.body.removeChild(img);
+                document.body.removeChild(bubble);
+                document.body.removeChild(closeButton);
+            });
+            document.body.appendChild(closeButton);
 
             var user = sessionStorage.getItem('user');
             if(user === "tutor"){
