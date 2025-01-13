@@ -198,7 +198,6 @@ uploadSections.forEach((section) => {
         const files = e.dataTransfer.files;
         if (files.length) {
             filesBySection[sectionId] = Array.from(files);
-            displayFileNames(uploadZone, filesBySection[sectionId]);
             assignment.style.color = 'green';
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
@@ -213,7 +212,6 @@ uploadSections.forEach((section) => {
         const files = e.target.files;
         if (files.length) {
             filesBySection[sectionId] = Array.from(files);
-            displayFileNames(uploadZone, filesBySection[sectionId]);
             assignment.style.color = 'green';
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
@@ -227,11 +225,6 @@ uploadSections.forEach((section) => {
         if (!isInProgress) return;
         fileInput.click();
     });
-
-    function displayFileNames(uploadZone, files) {
-        const fileNames = files.map((file) => file.name).join(', ');
-        uploadZone.textContent = `Files: ${fileNames}`;
-    }
 
     downloadBtn.addEventListener('click', () => {
         const files = filesBySection[sectionId];

@@ -113,7 +113,6 @@ uploadSections.forEach((section) => {
         const files = e.dataTransfer.files;
         if (files.length) {
             filesBySection[sectionId] = Array.from(files);
-            displayFileNames(uploadZone, filesBySection[sectionId]);
             groupLabel.style.color = 'green';
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
