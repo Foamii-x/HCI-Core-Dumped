@@ -61,6 +61,13 @@ const pointsBySection = {
     4: null  // Noch keine Punkte
 };
 
+const assignmentPeriods = {
+    1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
+    2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
+    3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-02-01T23:59:59') },
+    4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2026-04-01T21:00:00') }
+};
+
 const currentDate = new Date();
 
 uploadSections.forEach((section) => {
@@ -74,13 +81,6 @@ uploadSections.forEach((section) => {
     const pointsInput = section.querySelector('input[type="number"]'); // Punkte-Feld
     const endDateElement = section.querySelector('td:nth-child(5) h3'); // 5. Spalte für Datum
     const endTimeElement = section.querySelector('td:nth-child(6) h3'); // 6. Spalte für Uhrzeit
-
-    const assignmentPeriods = {
-        1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
-        2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
-        3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-02-01T23:59:59') },
-        4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2026-04-01T21:00:00') }
-    };
 
     const period = assignmentPeriods[sectionId];
     const isBeforeStart = currentDate < period.startDate;
@@ -106,10 +106,12 @@ uploadSections.forEach((section) => {
         endTimeElement.textContent = `${formattedDateTime.time} Uhr`;
     }
 
-    // Punkte anzeigen, wenn bewertet
-    if (evaluationsBySection[sectionId].length > 0 && pointsBySection[sectionId] !== null) {
-        pointsInput.value = pointsBySection[sectionId];
-        pointsInput.disabled = true; // Deaktivieren, damit es nicht bearbeitet werden kann
+    // Punktefeld immer deaktivieren
+    if (pointsInput) {
+        pointsInput.disabled = true;
+        if (pointsBySection[sectionId] !== null) {
+            pointsInput.value = pointsBySection[sectionId];
+        }
     }
     // Update UI basierend auf Status
     if (isAfterEnd) {

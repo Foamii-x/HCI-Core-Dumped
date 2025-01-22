@@ -79,7 +79,7 @@ uploadSections.forEach((section) => {
 
     if (filesBySection[sectionId].length > 0 && pointsBySection[sectionId] !== null) {
         pointsInput.value = pointsBySection[sectionId];
-        pointsInput.disabled = true; // Deaktivieren, damit es nicht bearbeitet werden kann
+        //pointsInput.disabled = true; // Deaktivieren, damit es nicht bearbeitet werden kann
     }
     // Klick-basierter Upload
     uploadZone.addEventListener('click', () => {
@@ -143,7 +143,7 @@ uploadSections.forEach((section) => {
             // Check if the entered value is valid
             if (pointsValue >= 0 && pointsValue <= 10) {
                 pointsBySection[sectionId] = pointsValue;
-                pointsInput.disabled = true; // Disable the points input after pressing Enter
+                //pointsInput.disabled = true; // Disable the points input after pressing Enter
             } else {
                 // Optional: You could reset the input if the value is not valid
                 pointsInput.value = '';
