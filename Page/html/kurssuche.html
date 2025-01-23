@@ -61,6 +61,7 @@
             right: 0px; 
             width: 400px;
             height: auto;
+            
         }
 
         .speech-bubble {
@@ -101,6 +102,49 @@
             cursor: pointer;
             font-size: 24px;
         }
+
+        @media (max-width: 1300px) {
+            .speech-bubble {
+                width: 500px;
+            }
+        }
+
+        @media (max-width: 1150px) {
+            .posAvatar {
+                width: 300px;
+            }
+
+            .speech-bubble {
+                width: 500px;
+                bottom: 250px;
+                right: 60px;
+                font-size: 28px;
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .speech-bubble {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .speech-bubble {
+                width: 200px;
+                right: 10px;
+            }
+
+            .speech-bubble::after {
+            right: 134px;
+            }
+
+            .closeButton {
+                bottom: 520px;
+            }
+        }
+
+
 
 
     </style>
@@ -187,8 +231,7 @@
                 document.body.removeChild(bubble);
                 document.body.removeChild(closeButton);
             });
-            document.body.appendChild(closeButton);
-
+            
             var user = sessionStorage.getItem('user');
             if(user === "tutor"){
                 bubble.textContent = "Grundlagen der Mensch Computer Interaktion neue Uploads verfügbar";
@@ -203,6 +246,7 @@
                 öffnen();
             });
             document.body.appendChild(bubble);
+            document.body.appendChild(closeButton);
         }
 
         function öffnen(){
