@@ -8,7 +8,7 @@ h1 {
 }
 hr {
     margin-top: 0;   
-    width: 10%; 
+    width: auto; 
     float: left;
 }
 .download-box {
@@ -18,7 +18,7 @@ hr {
     display: inline-block;
     text-align: center;
     line-height: 20px; 
-    font-size: 16px; 
+    /* font-size: 16px;  */
 }
 .download-box:hover {
     background-color: #0056b3;
@@ -31,14 +31,14 @@ hr {
     display: inline-block;
     text-align: center;
     line-height: 20px; 
-    font-size: 16px; 
+    /* font-size: 16px;  */
 }
 .evaluation-box:hover {
     background-color: #0056b3;
     cursor: pointer;
 }
 .upload-box {
-    width: 90px; 
+    width: 100px; 
     height: 25px; 
     border: 3px solid #000; 
     display: inline-block;
@@ -86,6 +86,7 @@ table {
     margin: 30px;
 }
 th, td {
+    font-size: clamp(12px, 2vw, 18px);
     border: 0px solid #000;
     text-align: center;
     padding: 10px 10px; 
@@ -152,10 +153,47 @@ button {
     cursor: pointer;
     font-size: 24px;
 }
+.logout-container {
+    position: fixed !important;
+    top: 30px !important;
+    right: 40px !important;
+    z-index: 1000 !important;
+}
+.logout-button {
+    position: relative !important;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-image {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #0078d7;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.logout-button:hover {
+    transform: scale(1.1);
+    background-color: #0056b3;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+.logout-button:active {
+    background-color: #003d80;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
 @media (max-width: 1300px) {
     .speech-bubble {
         width: 500px;
+    }
+
+    table{
+        margin: 20px;
     }
 }
 
@@ -171,11 +209,26 @@ button {
         font-size: 28px;
         padding: 22px;
     }
+    table{
+        margin: 10px;
+    }
+    .evaluation-box, .download-box, .upload-box{
+        width: 70px;
+    }
 }
 
 @media (max-width: 800px) {
     .speech-bubble {
         width: 400px;
+    }
+    table{
+        margin: 5px;
+    }
+    .evaluation-box, .download-box, .upload-box{
+        width: 50px;
+    }
+    td, th{
+        padding: 10px 0px;
     }
 }
 

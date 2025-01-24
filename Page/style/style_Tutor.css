@@ -18,7 +18,7 @@ hr {
     display: inline-block;
     text-align: center;
     line-height: 20px; 
-    font-size: 16px; 
+    /* font-size: 16px;  */
 }
 .download-box:hover {
     background-color: #0056b3;
@@ -31,7 +31,7 @@ hr {
     display: inline-block;
     text-align: center;
     line-height: 20px;
-    font-size: 16px; 
+    /* font-size: 16px;  */
 }
 .upload-box:hover {
     background-color: #0056b3;
@@ -141,4 +141,81 @@ button {
     border-radius: 50%;
     cursor: pointer;
     font-size: 24px;
+}
+.logout-container {
+    position: fixed !important;
+    top: 30px !important;
+    right: 40px !important;
+    z-index: 1000 !important;
+}
+.logout-button {
+    position: relative !important;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-image {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #0078d7;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.logout-button:hover {
+    transform: scale(1.1);
+    background-color: #0056b3;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+.logout-button:active {
+    background-color: #003d80;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 1300px) {
+    .speech-bubble {
+        width: 500px;
+    }
+
+    table{
+        margin: 20px;
+    }
+}
+
+@media (max-width: 1150px) {
+    .posAvatar {
+        width: 300px;
+    }
+
+    .speech-bubble {
+        width: 500px;
+        bottom: 250px;
+        right: 60px;
+        font-size: 28px;
+        padding: 22px;
+    }
+    table{
+        margin: 10px;
+    }
+    .evaluation-box, .download-box, .upload-box{
+        width: 80px;
+    }
+}
+
+@media (max-width: 800px) {
+    .speech-bubble {
+        width: 400px;
+    }
+    table{
+        margin: 5px;
+    }
+    .evaluation-box, .download-box, .upload-box{
+        width: 70px;
+    }
+    td, th{
+        padding: 10px 2px;
+    }
 }

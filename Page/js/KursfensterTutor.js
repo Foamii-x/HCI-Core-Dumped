@@ -79,7 +79,6 @@ uploadSections.forEach((section) => {
 
     if (filesBySection[sectionId].length > 0 && pointsBySection[sectionId] !== null) {
         pointsInput.value = pointsBySection[sectionId];
-        //pointsInput.disabled = true; // Deaktivieren, damit es nicht bearbeitet werden kann
     }
     // Klick-basierter Upload
     uploadZone.addEventListener('click', () => {
