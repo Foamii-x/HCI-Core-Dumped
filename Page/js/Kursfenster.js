@@ -1,4 +1,11 @@
-localStorage.setItem(`pointsBySection_1`, "9");
+var kurs = sessionStorage.getItem('kurs');
+
+console.log(`Checking key: Group1_${kurs}_filesBySection_3`);
+console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_3`));
+console.log(kurs);
+
+// localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment01`, "9");
+
 const assignmentPeriods = {
     1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
     2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
@@ -10,7 +17,7 @@ const currentDate = new Date();
 
 document.addEventListener('DOMContentLoaded', function() {
     var titel = document.querySelector('h1');
-    var kurs = sessionStorage.getItem('kurs');
+    // var kurs = sessionStorage.getItem('kurs');
     titel.textContent = kurs;
 
     var img = document.createElement('img');
@@ -46,6 +53,16 @@ document.addEventListener('DOMContentLoaded', function() {
 function zurück(){
     window.location.href = sessionStorage.getItem('letzteSeiteK');
 }
+// Hilfsfunktion zur Umwandlung eines ArrayBuffers in einen Base64-String
+function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const length = bytes.byteLength;
+    for (let i = 0; i < length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
 
 function saveEvaluationToLocalStorage(sectionId, file) {
     const reader = new FileReader();
@@ -54,13 +71,13 @@ function saveEvaluationToLocalStorage(sectionId, file) {
             name: file.name,
             type: file.type,
             size: file.size,
-            content: btoa(event.target.result) //Datei als Base64 codieren
+            content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
         };
-        let files = [fileData];
+        let files = [];
         files.push(fileData);
-        localStorage.setItem(`evaluationBySection_${sectionId}`, JSON.stringify(files));
+        localStorage.setItem(`Group1_${kurs}_evaluationBySection_${sectionId}`, JSON.stringify(files));
     };
-    reader.readAsText(file);
+    reader.readAsArrayBuffer(file);
 }
 saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
 
@@ -71,19 +88,19 @@ function saveFileToLocalStorage(sectionId, file) {
             name: file.name,
             type: file.type,
             size: file.size,
-            content: btoa(event.target.result) //Datei als Base64 codieren
+            content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
         };
-        let files = [fileData];
+        let files = [];
         files.push(fileData);
-        localStorage.setItem(`filesBySection_${sectionId}`, JSON.stringify(files));
+        localStorage.setItem(`Group1_${kurs}_filesBySection_${sectionId}`, JSON.stringify(files));
     };
-    reader.readAsText(file);
+    reader.readAsArrayBuffer(file);
 }
 saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
 saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
 
 function getFilesFromLocalStorage(sectionId) {
-    const files = JSON.parse(localStorage.getItem(`filesBySection_${sectionId}`)) || [];
+    const files = JSON.parse(localStorage.getItem(`Group1_${kurs}_filesBySection_${sectionId}`)) || [];
     return files.map(fileData => {
         const { name, type, content } = fileData;
         const decodedContent = atob(content); // Base64-Dekodierung
@@ -92,7 +109,7 @@ function getFilesFromLocalStorage(sectionId) {
     });
 }
 function getEvaluationsFromLocalStorage(sectionId) {
-    const files = JSON.parse(localStorage.getItem(`evaluationBySection_${sectionId}`)) || [];
+    const files = JSON.parse(localStorage.getItem(`Group1_${kurs}_evaluationBySection_${sectionId}`)) || [];
     return files.map(fileData => {
         const { name, type, content } = fileData;
         const decodedContent = atob(content); // Base64-Dekodierung
@@ -141,7 +158,8 @@ uploadSections.forEach((section) => {
 
     // Punktefeld immer deaktivieren, Punkte anzeigen falls da
     if (pointsInput) {
-         pointsInput.value = localStorage.getItem(`pointsBySection_${sectionId}`) || '';
+        pointsInput.value = localStorage.getItem(`Group1_${kurs}_pointsBySection_Assignment 0${sectionId}`) || '';
+        console.log(`Group1_${kurs}_pointsBySection_Assignment 0${sectionId}`);
         pointsInput.disabled = true;
     }
     
@@ -182,7 +200,7 @@ uploadSections.forEach((section) => {
                     zip.generateAsync({ type: 'blob' }).then((content) => {
                         const link = document.createElement('a');
                         link.href = URL.createObjectURL(content);
-                        link.download = `section_${sectionId}_evaluations.zip`;
+                        link.download = `Assignment_${sectionId}_Bewertung.zip`;
                         link.click();
                     });
                 }
@@ -250,7 +268,7 @@ uploadSections.forEach((section) => {
             zip.generateAsync({ type: 'blob' }).then((content) => {
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(content);
-                link.download = `section_${sectionId}_files.zip`;
+                link.download = `Assignment_${sectionId}.zip`;
                 link.click();
             });
         } else {

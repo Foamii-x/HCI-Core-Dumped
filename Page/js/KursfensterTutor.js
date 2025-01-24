@@ -1,7 +1,8 @@
+var kurs = sessionStorage.getItem('kurs');
+var assignment = sessionStorage.getItem('Assignment');
+
 document.addEventListener('DOMContentLoaded', function() {
     var titel = document.querySelector('h1');
-    var kurs = sessionStorage.getItem('kurs');
-    var assignment = sessionStorage.getItem('Assignment');
     titel.textContent = kurs + " > " + assignment;
 
     var img = document.createElement('img');
@@ -30,6 +31,57 @@ function zurück(){
     window.location.href = sessionStorage.getItem('letzteSeite');
 }
 
+function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const length = bytes.byteLength;
+    for (let i = 0; i < length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
+
+function saveEvaluationToLocalStorage(sectionId, file) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const fileData = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
+        };
+        let files = [];
+        files.push(fileData);
+        localStorage.setItem(`Group${sectionId}_${kurs}_evaluationBySection_${sectionId}`, JSON.stringify(files));
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function saveFileToLocalStorage(sectionId, file) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const fileData = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
+        };
+        let files = [];
+        files.push(fileData);
+        localStorage.setItem(`Group${sectionId}_${kurs}_filesBySection_${sectionId}`, JSON.stringify(files));
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function getFilesFromLocalStorage(sectionId) {
+    const files = JSON.parse(localStorage.getItem(`Group${sectionId}_${kurs}_filesBySection_${sectionId}`)) || [];
+    return files.map(fileData => {
+        const { name, type, content } = fileData;
+        const decodedContent = atob(content); // Base64-Dekodierung
+        const blob = new Blob([decodedContent], { type });
+        return new File([blob], name, { type });
+    });
+}
 
 const uploadSections = document.querySelectorAll('.upload-section');
 
@@ -47,13 +99,15 @@ const downloadBySection = {
     4: [new File(["Abgabe A2, Gruppe 4"], "Assignment2.txt")]
 };
 
-const pointsBySection = {
-    1: 9, // 9 von 10 Punkte für Assignment 1
-    2: 10, // Assignment 2 noch nicht bewertet
-    3: null, // Noch keine Punkte
-    4: null  // Noch keine Punkte
-};
+// const pointsBySection = {
+//     1: 9, // 9 von 10 Punkte für Assignment 1
+//     2: 10, // Assignment 2 noch nicht bewertet
+//     3: null, // Noch keine Punkte
+//     4: null  // Noch keine Punkte
+// };
+if(!localStorage.getItem(`Group1_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group1_${kurs}_pointsBySection_${assignment}`, "9");
 
+if(!localStorage.getItem(`Group2_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group2_${kurs}_pointsBySection_${assignment}`, "10");
 // Initialisierung der Upload- und Download-Funktionalität
 uploadSections.forEach((section) => {
     const sectionId = parseInt(section.dataset.section);
@@ -64,7 +118,8 @@ uploadSections.forEach((section) => {
     const pointsInput = section.querySelector('input[type="number"]');
     const groupLabel = section.querySelector('td h2'); // Gruppenbeschriftung
 
-    if(filesBySection[sectionId].length > 0){
+    const storedFiles = getFilesFromLocalStorage(sectionId);
+    if(storedFiles.length > 0){
         groupLabel.style.color = 'green';
         checkbox.checked = true;
         checkbox.classList.remove('unchecked');
@@ -77,8 +132,8 @@ uploadSections.forEach((section) => {
     }
     checkbox.disabled = true;
 
-    if (filesBySection[sectionId].length > 0 && pointsBySection[sectionId] !== null) {
-        pointsInput.value = pointsBySection[sectionId];
+    if (pointsInput) {
+        pointsInput.value = localStorage.getItem(`Group${sectionId}_${kurs}_pointsBySection__${assignment}`) || '';
     }
     // Klick-basierter Upload
     uploadZone.addEventListener('click', () => {
@@ -90,6 +145,16 @@ uploadSections.forEach((section) => {
         if (files.length) {
             filesBySection[sectionId] = Array.from(files);
             groupLabel.style.color = 'green';
+            checkbox.classList.remove('unchecked');
+            checkbox.classList.add('checked');
+            checkbox.checked = true;
+        }
+    });
+    fileInput.addEventListener('change', (e) => {
+        const files = e.target.files;
+        if (files.length) {
+            saveFileToLocalStorage(sectionId, files[0]);
+            assignment.style.color = 'green';
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
             checkbox.checked = true;
@@ -111,8 +176,8 @@ uploadSections.forEach((section) => {
         uploadZone.classList.remove('drag-over');
         const files = e.dataTransfer.files;
         if (files.length) {
-            filesBySection[sectionId] = Array.from(files);
-            groupLabel.style.color = 'green';
+            saveFileToLocalStorage(sectionId, files[0]);
+            assignment.style.color = 'green';
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
             checkbox.checked = true;
@@ -121,27 +186,32 @@ uploadSections.forEach((section) => {
 
     // Download-Button Logik
     downloadBtn.addEventListener('click', () => {
-        const files = downloadBySection[sectionId];
+        const files = getFilesFromLocalStorage(sectionId);
         if (files.length > 0) {
             const zip = new JSZip();
-            files.forEach((file) => zip.file(file.name, file));
+            files.forEach(file => {
+                zip.file(file.name, file);
+            });
             zip.generateAsync({ type: 'blob' }).then((content) => {
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(content);
-                link.download = `Gruppe_${sectionId}_Uploads.zip`;
+                link.download = `Gruppe_${sectionId}_Upload.zip`;
                 link.click();
             });
         } else {
-            alert('No files uploaded!');
+            alert('No files uploaded yet!');
         }
     });
+
     pointsInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             const pointsValue = parseInt(pointsInput.value, 10);
 
             // Check if the entered value is valid
             if (pointsValue >= 0 && pointsValue <= 10) {
-                pointsBySection[sectionId] = pointsValue;
+                localStorage.setItem(`Group${sectionId}_${kurs}_pointsBySection_${assignment}`, JSON.stringify(pointsValue));
+                console.log(`Group${sectionId}_${kurs}_pointsBySection_${assignment}`);
+                // pointsBySection[sectionId] = pointsValue;
                 //pointsInput.disabled = true; // Disable the points input after pressing Enter
             } else {
                 // Optional: You could reset the input if the value is not valid
