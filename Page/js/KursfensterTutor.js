@@ -52,7 +52,7 @@ function saveEvaluationToLocalStorage(sectionId, file) {
         };
         let files = [];
         files.push(fileData);
-        localStorage.setItem(`Group${sectionId}_${kurs}_evaluationBySection_${sectionId}`, JSON.stringify(files));
+        localStorage.setItem(`Group${sectionId}_${kurs}_evaluationBySection_${assignment}`, JSON.stringify(files));
     };
     reader.readAsArrayBuffer(file);
 }
@@ -68,13 +68,13 @@ function saveFileToLocalStorage(sectionId, file) {
         };
         let files = [];
         files.push(fileData);
-        localStorage.setItem(`Group${sectionId}_${kurs}_filesBySection_${sectionId}`, JSON.stringify(files));
+        localStorage.setItem(`Group${sectionId}_${kurs}_filesBySection_${assignment}`, JSON.stringify(files));
     };
     reader.readAsArrayBuffer(file);
 }
 
 function getFilesFromLocalStorage(sectionId) {
-    const files = JSON.parse(localStorage.getItem(`Group${sectionId}_${kurs}_filesBySection_${sectionId}`)) || [];
+    const files = JSON.parse(localStorage.getItem(`Group${sectionId}_${kurs}_filesBySection_${assignment}`)) || [];
     return files.map(fileData => {
         const { name, type, content } = fileData;
         const decodedContent = atob(content); // Base64-Dekodierung

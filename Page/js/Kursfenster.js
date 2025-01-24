@@ -1,7 +1,6 @@
 var kurs = sessionStorage.getItem('kurs');
 
-console.log(`Checking key: Group1_${kurs}_filesBySection_3`);
-console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_3`));
+console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_Assignment 03`));
 console.log(kurs);
 
 // localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment01`, "9");
@@ -48,6 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
     bubble.textContent = `Du hast noch ${daysRemaining} Tage und ${hoursRemaining} Stunden Zeit für Assignment 03`;
 
     document.body.appendChild(bubble);
+
+    saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
+    saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
+    saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
 });
 
 function zurück(){
@@ -75,11 +78,10 @@ function saveEvaluationToLocalStorage(sectionId, file) {
         };
         let files = [];
         files.push(fileData);
-        localStorage.setItem(`Group1_${kurs}_evaluationBySection_${sectionId}`, JSON.stringify(files));
+        localStorage.setItem(`Group1_${kurs}_evaluationBySection_Assignment 0${sectionId}`, JSON.stringify(files));
     };
     reader.readAsArrayBuffer(file);
 }
-saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
 
 function saveFileToLocalStorage(sectionId, file) {
     const reader = new FileReader();
@@ -92,15 +94,13 @@ function saveFileToLocalStorage(sectionId, file) {
         };
         let files = [];
         files.push(fileData);
-        localStorage.setItem(`Group1_${kurs}_filesBySection_${sectionId}`, JSON.stringify(files));
+        localStorage.setItem(`Group1_${kurs}_filesBySection_Assignment 0${sectionId}`, JSON.stringify(files));
     };
     reader.readAsArrayBuffer(file);
 }
-saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
-saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
 
 function getFilesFromLocalStorage(sectionId) {
-    const files = JSON.parse(localStorage.getItem(`Group1_${kurs}_filesBySection_${sectionId}`)) || [];
+    const files = JSON.parse(localStorage.getItem(`Group1_${kurs}_filesBySection_Assignment 0${sectionId}`)) || [];
     return files.map(fileData => {
         const { name, type, content } = fileData;
         const decodedContent = atob(content); // Base64-Dekodierung
@@ -109,7 +109,7 @@ function getFilesFromLocalStorage(sectionId) {
     });
 }
 function getEvaluationsFromLocalStorage(sectionId) {
-    const files = JSON.parse(localStorage.getItem(`Group1_${kurs}_evaluationBySection_${sectionId}`)) || [];
+    const files = JSON.parse(localStorage.getItem(`Group1_${kurs}_evaluationBySection_Assignment 0${sectionId}`)) || [];
     return files.map(fileData => {
         const { name, type, content } = fileData;
         const decodedContent = atob(content); // Base64-Dekodierung
