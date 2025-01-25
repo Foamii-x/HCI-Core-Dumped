@@ -245,10 +245,11 @@ uploadSections.forEach((section) => {
             checkbox.checked = true;
             downloadBtn.style.pointerEvents = 'auto';
             downloadBtn.style.opacity = '1';
+            sessionStorage.setItem(`kursStatus_${kurs}`, true);
+            updateAvatar();
         }
         // sessionStorage.setItem('uploaded', 'true');
-        sessionStorage.setItem(`kursStatus_${kurs}`, true);
-        updateAvatar();
+        
     });
 
     fileInput.addEventListener('change', (e) => {
@@ -262,6 +263,8 @@ uploadSections.forEach((section) => {
             checkbox.checked = true;
             downloadBtn.style.pointerEvents = 'auto';
             downloadBtn.style.opacity = '1';
+            sessionStorage.setItem(`kursStatus_${kurs}`, true);
+            updateAvatar();
         }
     });
 
@@ -269,8 +272,8 @@ uploadSections.forEach((section) => {
         if (!isInProgress) return;
         fileInput.click();
         // sessionStorage.setItem('uploaded', 'true');
-        sessionStorage.setItem(`kursStatus_${kurs}`, true);
-        updateAvatar();
+        // sessionStorage.setItem(`kursStatus_${kurs}`, true);
+        // updateAvatar();
     });
 
     downloadBtn.addEventListener('click', () => {
