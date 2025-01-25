@@ -124,7 +124,22 @@ function arrayBufferToBase64(buffer) {
     }
     return window.btoa(binary);
 }
-
+function saveEvaluationToLocalStorage(sectionId, file) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const fileData = {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
+        };
+        let files = [];
+        files.push(fileData);
+        localStorage.setItem(`Group${sectionId}_${kurs}_evaluationBySection_${assignment}`, JSON.stringify(files));
+        console.log(localStorage.getItem(`Group${sectionId}_${kurs}_evaluationBySection_${assignment}`));
+    };
+    reader.readAsArrayBuffer(file);
+}
 function saveFileToLocalStorage(sectionId, file) {
     const reader = new FileReader();
     reader.onload = function(event) {
@@ -229,32 +244,29 @@ uploadSections.forEach((section) => {
 
     if(evaluationDownloadBtn){
         const evaluations = getEvaluationsFromLocalStorage(sectionId);
+        console.log(evaluations);
         console.log(`Something went wrong in section${sectionId}! ${evaluations.length}`);
         if (evaluations.length > 0) {
             evaluationDownloadBtn.style.pointerEvents = 'auto';
             evaluationDownloadBtn.style.opacity = '1';
 
             evaluationDownloadBtn.addEventListener('click', () => {
-               
-                if (evaluations.length > 0) {
-                    const zip = new JSZip();
-                    evaluations.forEach(file => {
-                        zip.file(file.name, file.content);
-                    });
-                    zip.generateAsync({ type: 'blob' }).then((content) => {
-                        const link = document.createElement('a');
-                        link.href = URL.createObjectURL(content);
-                        link.download = `Assignment_${sectionId}_Bewertung.zip`;
-                        link.click();
-                    });
-                }
+                const zip = new JSZip();
+                evaluations.forEach(file => {
+                    zip.file(file.name, file);
+                });
+                zip.generateAsync({ type: 'blob' }).then((content) => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(content);
+                    link.download = `Assignment_${sectionId}_Bewertung.zip`;
+                    link.click();
+                });
             });
         } else{
             evaluationDownloadBtn.style.pointerEvents = 'none';
             evaluationDownloadBtn.style.opacity = '0.5';
         }
     }
-
     // Drag-and-drop Events
     uploadZone.addEventListener('dragover', (e) => {
         e.preventDefault();
@@ -313,6 +325,7 @@ uploadSections.forEach((section) => {
 
     downloadBtn.addEventListener('click', () => {
         const files = getFilesFromLocalStorage(sectionId);
+        console.log(files);
         if (files.length > 0) {
             const zip = new JSZip();
             files.forEach(file => {
