@@ -222,3 +222,12 @@ uploadSections.forEach((section) => {
         }
     });
 });
+
+window.onload = function() {
+    if (!sessionStorage.getItem('reloaded')) {
+        sessionStorage.setItem('reloaded', 'true');
+        location.reload();
+    } else {
+        sessionStorage.removeItem('reloaded');
+    }
+}
