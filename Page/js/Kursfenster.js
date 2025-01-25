@@ -3,7 +3,7 @@ var kurs = sessionStorage.getItem('kurs');
 console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_Assignment 03`));
 console.log(kurs);
 
-saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
+// saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
 saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
 saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
 // localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment01`, "9");
@@ -67,21 +67,21 @@ function arrayBufferToBase64(buffer) {
     return window.btoa(binary);
 }
 
-function saveEvaluationToLocalStorage(sectionId, file) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const fileData = {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
-        };
-        let files = [];
-        files.push(fileData);
-        localStorage.setItem(`Group1_${kurs}_evaluationBySection_Assignment 0${sectionId}`, JSON.stringify(files));
-    };
-    reader.readAsArrayBuffer(file);
-}
+// function saveEvaluationToLocalStorage(sectionId, file) {
+//     const reader = new FileReader();
+//     reader.onload = function(event) {
+//         const fileData = {
+//             name: file.name,
+//             type: file.type,
+//             size: file.size,
+//             content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
+//         };
+//         let files = [];
+//         files.push(fileData);
+//         localStorage.setItem(`Group1_${kurs}_evaluationBySection_Assignment 0${sectionId}`, JSON.stringify(files));
+//     };
+//     reader.readAsArrayBuffer(file);
+// }
 
 function saveFileToLocalStorage(sectionId, file) {
     const reader = new FileReader();
@@ -186,6 +186,7 @@ uploadSections.forEach((section) => {
 
     if(evaluationDownloadBtn){
         const evaluations = getEvaluationsFromLocalStorage(sectionId);
+        console.log(`Something went wrong in section${sectionId}! ${evaluations.length}`);
         if (evaluations.length > 0) {
             evaluationDownloadBtn.style.pointerEvents = 'auto';
             evaluationDownloadBtn.style.opacity = '1';

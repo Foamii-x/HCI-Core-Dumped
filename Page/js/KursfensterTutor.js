@@ -60,21 +60,21 @@ function saveEvaluationToLocalStorage(sectionId, file) {
     reader.readAsArrayBuffer(file);
 }
 
-function saveFileToLocalStorage(sectionId, file) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const fileData = {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
-        };
-        let files = [];
-        files.push(fileData);
-        localStorage.setItem(`Group${sectionId}_${kurs}_filesBySection_${assignment}`, JSON.stringify(files));
-    };
-    reader.readAsArrayBuffer(file);
-}
+// function saveFileToLocalStorage(sectionId, file) {
+//     const reader = new FileReader();
+//     reader.onload = function(event) {
+//         const fileData = {
+//             name: file.name,
+//             type: file.type,
+//             size: file.size,
+//             content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
+//         };
+//         let files = [];
+//         files.push(fileData);
+//         localStorage.setItem(`Group${sectionId}_${kurs}_filesBySection_${assignment}`, JSON.stringify(files));
+//     };
+//     reader.readAsArrayBuffer(file);
+// }
 
 function getFilesFromLocalStorage(sectionId) {
     const files = JSON.parse(localStorage.getItem(`Group${sectionId}_${kurs}_filesBySection_${assignment}`)) || [];
@@ -141,21 +141,21 @@ uploadSections.forEach((section) => {
         fileInput.click();
     });
 
+    // fileInput.addEventListener('change', (e) => {
+    //     const files = e.target.files;
+    //     if (files.length) {
+    //         filesBySection[sectionId] = Array.from(files);
+    //         groupLabel.style.color = 'green';
+    //         checkbox.classList.remove('unchecked');
+    //         checkbox.classList.add('checked');
+    //         checkbox.checked = true;
+    //     }
+    // });
     fileInput.addEventListener('change', (e) => {
         const files = e.target.files;
         if (files.length) {
-            filesBySection[sectionId] = Array.from(files);
+            saveEvaluationToLocalStorage(sectionId, files[0]);
             groupLabel.style.color = 'green';
-            checkbox.classList.remove('unchecked');
-            checkbox.classList.add('checked');
-            checkbox.checked = true;
-        }
-    });
-    fileInput.addEventListener('change', (e) => {
-        const files = e.target.files;
-        if (files.length) {
-            saveFileToLocalStorage(sectionId, files[0]);
-            assignment.style.color = 'green';
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
             checkbox.checked = true;
@@ -177,8 +177,8 @@ uploadSections.forEach((section) => {
         uploadZone.classList.remove('drag-over');
         const files = e.dataTransfer.files;
         if (files.length) {
-            saveFileToLocalStorage(sectionId, files[0]);
-            assignment.style.color = 'green';
+            saveEvaluationToLocalStorage(sectionId, files[0]);
+            groupLabel.style.color = 'green';
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
             checkbox.checked = true;
