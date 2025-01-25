@@ -8,18 +8,51 @@ if(user == 'Maria') groupNumber = 3;
 if(user == 'Jonas') groupNumber = 4;
 console.log(groupNumber);
 console.log(localStorage.getItem(`Group${groupNumber}_${kurs}_filesBySection_Assignment 03`));
+console.log(localStorage.getItem(`Group${groupNumber}_${kurs}_evaluationBySection_Assignment 01`));
 console.log(kurs);
 // saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
-saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
-saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
+if(!localStorage.getItem(`Group${groupNumber}_${kurs}_filesBySection_Assignment 01`)) saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
+if(!localStorage.getItem(`Group${groupNumber}_${kurs}_filesBySection_Assignment 02`)) saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
 // localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment01`, "9");
 
-const assignmentPeriods = {
-    1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
-    2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
-    3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-02-01T23:59:59') },
-    4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2026-04-01T21:00:00') }
-};
+    var assignmentPeriods;
+if(kurs === 'Datenstrukturen und Algorithmen' || kurs === "Mathe 1" || kurs === "Elektrotechnik"){
+    assignmentPeriods = {
+        1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
+        2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
+        3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-02-14T14:15:00') },
+        4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2025-04-23T22:15:14') }
+    };
+} else if(kurs === "Diskrete Strukturen" || kurs === "Grundlagen der Mensch Computer Interaktion" || kurs === "Logik und formale Systeme"){
+    assignmentPeriods = {
+        1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
+        2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
+        3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-02-01T23:59:59') },
+        4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2026-04-01T21:00:00') }
+    };
+} else if(kurs === "Grundlagen der IT-Sicherheit" || kurs === "Programmieren 2" || kurs === "Grundlagen theoretischer Informatik"){
+    assignmentPeriods = {
+        1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
+        2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
+        3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-06-07T00:00:00') },
+        4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2025-12-31T23:59:59') }
+    };
+} else if(kurs === "Grundlagen der Rechnerarchitektur" || kurs == "Mathe 2" || kurs === "Programmieren 1"){
+    assignmentPeriods = {
+        1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
+        2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
+        3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2026-03-14T09:10:11') },
+        4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2026-10-19T06:07:08') }
+    };
+} else{
+    assignmentPeriods = {
+        1: { startDate: new Date('2023-01-01T09:00:00'), endDate: new Date('2023-02-01T23:59:59') },
+        2: { startDate: new Date('2023-01-15T10:00:00'), endDate: new Date('2023-02-15T22:00:00') },
+        3: { startDate: new Date('2024-01-01T08:00:00'), endDate: new Date('2025-05-15T20:00:00') },
+        4: { startDate: new Date('2025-03-01T09:30:00'), endDate: new Date('2025-09-12T13:15:00') }
+    };
+}
+
 
 const currentDate = new Date();
 
@@ -56,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // }
 
     var currentDate = new Date();
-    var dueDate = new Date('2025-02-01T23:59:59');
+    var dueDate = assignmentPeriods[3].endDate;
     var timeDifference = dueDate - currentDate;
     
     var daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
@@ -71,8 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateAvatar(){
     var bubble = document.getElementById('speechBubble');
-    if (sessionStorage.getItem(`kursStatus_${kurs}`)) {
+    if (localStorage.getItem(`kursStatus_${kurs}`)) {
         bubble.textContent = 'Assignment 03 wurde hochgeladen.';
+        localStorage.setItem(`${kurs}_Abgabe_${groupNumber}`, "true");
     } 
     // sessionStorage.setItem('uploaded', 'true');
 }
@@ -103,6 +137,7 @@ function saveFileToLocalStorage(sectionId, file) {
         let files = [];
         files.push(fileData);
         localStorage.setItem(`Group${groupNumber}_${kurs}_filesBySection_Assignment 0${sectionId}`, JSON.stringify(files));
+        console.log(localStorage.getItem(`Group${groupNumber}_${kurs}_filesBySection_Assignment 0${sectionId}`));
     };
     reader.readAsArrayBuffer(file);
 }
@@ -245,7 +280,7 @@ uploadSections.forEach((section) => {
             checkbox.checked = true;
             downloadBtn.style.pointerEvents = 'auto';
             downloadBtn.style.opacity = '1';
-            sessionStorage.setItem(`kursStatus_${kurs}`, true);
+            localStorage.setItem(`kursStatus_${kurs}`, true);
             updateAvatar();
         }
         // sessionStorage.setItem('uploaded', 'true');
@@ -263,7 +298,7 @@ uploadSections.forEach((section) => {
             checkbox.checked = true;
             downloadBtn.style.pointerEvents = 'auto';
             downloadBtn.style.opacity = '1';
-            sessionStorage.setItem(`kursStatus_${kurs}`, true);
+            localStorage.setItem(`kursStatus_${kurs}`, true);
             updateAvatar();
         }
     });

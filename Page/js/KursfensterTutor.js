@@ -1,8 +1,13 @@
 var kurs = sessionStorage.getItem('kurs');
 var assignment = sessionStorage.getItem('Assignment');
 console.log(assignment);
-if((!localStorage.getItem(`Group1_${kurs}_pointsBySection_${assignment}` && assignment === 'Assignment 01'))) localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment 01`, "9");
-if((!localStorage.getItem(`Group2_${kurs}_pointsBySection_${assignment}` && assignment === 'Assignment 01'))) localStorage.setItem(`Group2_${kurs}_pointsBySection_Assignment 01`, "10");
+// localStorage.removeItem(`Group2_${kurs}_evaluationBySection_${assignment}`);
+// localStorage.removeItem(`Group1_${kurs}_evaluationBySection_${assignment}`);
+if(assignment === 'Assignment 01') console.log("In Assigment 01");
+if((!localStorage.getItem(`Group1_${kurs}_pointsBySection_Assignment 01`) && assignment === 'Assignment 01')) localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment 01`, "9");
+if((!localStorage.getItem(`Group2_${kurs}_pointsBySection_Assignment 01`) && assignment === 'Assignment 01')) localStorage.setItem(`Group2_${kurs}_pointsBySection_Assignment 01`, "10");
+if(!localStorage.getItem(`Group1_${kurs}_evaluationBySection_${assignment}`) && assignment === 'Assignment 01') saveEvaluationToLocalStorage('1',new File(["Bewertung für A1"], "Bewertung_A1_Gruppe1.txt"));
+if(!localStorage.getItem(`Group2_${kurs}_evaluationBySection_${assignment}`) && assignment === 'Assignment 01') saveEvaluationToLocalStorage('2',new File(["Bewertung für A1"], "Bewertung_A1_Gruppe2.txt"));
 
 document.addEventListener('DOMContentLoaded', function() {
     var titel = document.querySelector('h1');
@@ -58,10 +63,19 @@ function saveEvaluationToLocalStorage(sectionId, file) {
         let files = [];
         files.push(fileData);
         localStorage.setItem(`Group${sectionId}_${kurs}_evaluationBySection_${assignment}`, JSON.stringify(files));
+        console.log(localStorage.getItem(`Group${sectionId}_${kurs}_evaluationBySection_${assignment}`));
     };
     reader.readAsArrayBuffer(file);
 }
-
+function getEvaluationsFromLocalStorage(sectionId) {
+    const files = JSON.parse(localStorage.getItem(`Group${sectionId}_${kurs}_evaluationBySection_${assignment}`)) || [];
+    return files.map(fileData => {
+        const { name, type, content } = fileData;
+        const decodedContent = atob(content); // Base64-Dekodierung
+        const blob = new Blob([decodedContent], { type });
+        return new File([blob], name, { type });
+    });
+}
 // function saveFileToLocalStorage(sectionId, file) {
 //     const reader = new FileReader();
 //     reader.onload = function(event) {
@@ -87,23 +101,22 @@ function getFilesFromLocalStorage(sectionId) {
         return new File([blob], name, { type });
     });
 }
-saveEvaluationToLocalStorage('1',new File(["Bewertung für A1"], "Bewertung_A1.txt"));
-saveEvaluationToLocalStorage('2',new File(["Bewertung für A1"], "Bewertung_A1.txt"));
+
 const uploadSections = document.querySelectorAll('.upload-section');
 
 // Abgaben getrennt speichern
-const filesBySection = {
-    1: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
-    2: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
-    3: [],
-    4: []
-};
-const downloadBySection = {
-    1: [new File(["Abgabe A2, Gruppe 1"], "Assignment2.txt")],
-    2: [new File(["Abgabe A2, Gruppe 2"], "Assignment2.txt")],
-    3: [new File(["Abgabe A2, Gruppe 3"], "Assignment2.txt")],
-    4: [new File(["Abgabe A2, Gruppe 4"], "Assignment2.txt")]
-};
+// const filesBySection = {
+//     1: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
+//     2: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
+//     3: [],
+//     4: []
+// };
+// const downloadBySection = {
+//     1: [new File(["Abgabe A2, Gruppe 1"], "Assignment2.txt")],
+//     2: [new File(["Abgabe A2, Gruppe 2"], "Assignment2.txt")],
+//     3: [new File(["Abgabe A2, Gruppe 3"], "Assignment2.txt")],
+//     4: [new File(["Abgabe A2, Gruppe 4"], "Assignment2.txt")]
+// };
 
 // const pointsBySection = {
 //     1: 9, // 9 von 10 Punkte für Assignment 1
@@ -122,7 +135,7 @@ uploadSections.forEach((section) => {
     const pointsInput = section.querySelector('input[type="number"]');
     const groupLabel = section.querySelector('td h2'); // Gruppenbeschriftung
 
-    const storedFiles = getFilesFromLocalStorage(sectionId);
+    const storedFiles = getEvaluationsFromLocalStorage(sectionId);
     if(storedFiles.length > 0){
         groupLabel.style.color = 'green';
         checkbox.checked = true;
@@ -144,16 +157,6 @@ uploadSections.forEach((section) => {
         fileInput.click();
     });
 
-    // fileInput.addEventListener('change', (e) => {
-    //     const files = e.target.files;
-    //     if (files.length) {
-    //         filesBySection[sectionId] = Array.from(files);
-    //         groupLabel.style.color = 'green';
-    //         checkbox.classList.remove('unchecked');
-    //         checkbox.classList.add('checked');
-    //         checkbox.checked = true;
-    //     }
-    // });
     fileInput.addEventListener('change', (e) => {
         const files = e.target.files;
         if (files.length) {
@@ -162,6 +165,7 @@ uploadSections.forEach((section) => {
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
             checkbox.checked = true;
+            updateAvatar2();
         }
     });
 
@@ -185,6 +189,7 @@ uploadSections.forEach((section) => {
             checkbox.classList.remove('unchecked');
             checkbox.classList.add('checked');
             checkbox.checked = true;
+            updateAvatar2();
         }
     });
 
@@ -248,17 +253,28 @@ function replaceLast(str, search, replace) {
 function updateAvatar2(){
     var text = "";
     var counter = 1;
+    var redCount = 0;
     const groupLabels = document.querySelectorAll('td h2');
     groupLabels.forEach(label => {
+        console.log(label.style.color);
+        console.log(counter);
         if(label.style.color === 'red'){
             // alert(label.style.color);
             text += `Gruppe 0${counter}, `;
-            counter++;
+            redCount++;
         }
+        counter++;
     });
     text = removeLast(text, ",");
     text = replaceLast(text, ",", " und");
-    var textOut = "Es müssen noch " + text + "erledigt werden!";
+    var textOut;
+    if(redCount === 0){
+        textOut = "Alle Abgaben wurden bewertet!";
+    } else if(redCount === 1){
+        textOut = `Es muss noch ${text} bewertet werden`;
+    } else{
+        textOut = "Es müssen noch " + text + "bewertet werden!";
+    }
 
     var bubble = document.getElementById('bubble');
     bubble.textContent = textOut;
