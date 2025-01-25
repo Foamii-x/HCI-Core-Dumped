@@ -3,6 +3,9 @@ var kurs = sessionStorage.getItem('kurs');
 console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_Assignment 03`));
 console.log(kurs);
 
+saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
+saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
+saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
 // localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment01`, "9");
 
 const assignmentPeriods = {
@@ -48,9 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.body.appendChild(bubble);
 
-    saveEvaluationToLocalStorage(1, new File(["Bewertung für A1"], "Bewertung_A1.txt"));
-    saveFileToLocalStorage(1, new File(["Abgabe A1"], "Assignment1.txt"));
-    saveFileToLocalStorage(2, new File(["Abgabe A2"], "Assignment2.txt"));
 });
 
 function zurück(){

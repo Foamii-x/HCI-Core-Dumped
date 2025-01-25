@@ -1,6 +1,9 @@
 var kurs = sessionStorage.getItem('kurs');
 var assignment = sessionStorage.getItem('Assignment');
 
+if(!localStorage.getItem(`Group1_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group1_${kurs}_pointsBySection_${assignment}`, "9");
+if(!localStorage.getItem(`Group2_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group2_${kurs}_pointsBySection_${assignment}`, "10");
+
 document.addEventListener('DOMContentLoaded', function() {
     var titel = document.querySelector('h1');
     titel.textContent = kurs + " > " + assignment;
@@ -105,9 +108,7 @@ const downloadBySection = {
 //     3: null, // Noch keine Punkte
 //     4: null  // Noch keine Punkte
 // };
-if(!localStorage.getItem(`Group1_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group1_${kurs}_pointsBySection_${assignment}`, "9");
 
-if(!localStorage.getItem(`Group2_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group2_${kurs}_pointsBySection_${assignment}`, "10");
 // Initialisierung der Upload- und Download-Funktionalität
 uploadSections.forEach((section) => {
     const sectionId = parseInt(section.dataset.section);
@@ -132,9 +133,9 @@ uploadSections.forEach((section) => {
     }
     checkbox.disabled = true;
 
-    if (pointsInput) {
-        pointsInput.value = localStorage.getItem(`Group${sectionId}_${kurs}_pointsBySection__${assignment}`) || '';
-    }
+
+    pointsInput.value = localStorage.getItem(`Group${sectionId}_${kurs}_pointsBySection_${assignment}`) || '';
+
     // Klick-basierter Upload
     uploadZone.addEventListener('click', () => {
         fileInput.click();
