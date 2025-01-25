@@ -168,6 +168,12 @@
             errorName.style.display = 'none';
             var errorPassword = document.getElementById('errorPassword');
             errorPassword.style.display = 'none';
+            if(name === "reset"){
+                alert("resetted");
+                sessionStorage.clear();
+                localStorage.clear();
+            }
+
             if(name === "" || !users[name]){
                 nameField.style.background = '#ff6666';
                 errorName.style.display = 'block';
