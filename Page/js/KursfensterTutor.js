@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var bubble = document.createElement('div');
     bubble.classList.add('speech-bubble');
-    bubble.textContent = "Gruppe 03 und Gruppe 04 müssen noch bewertet werden!";
+    bubble.id = "bubble";
+    // bubble.textContent = "Gruppe 03 und Gruppe 04 müssen noch bewertet werden!";
 
     var closeButton = document.createElement('div');
     closeButton.classList.add('closeButton');
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(closeButton);
 
     document.body.appendChild(bubble);
+    updateAvatar2();
 });
 
 function zurück(){
@@ -222,7 +224,46 @@ uploadSections.forEach((section) => {
             }
         }
     });
+    // if(!checkbox.checked){
+    //     sessionStorage.setItem(`${grouplabel}`, true);
+    // }
 });
+
+function removeLast(str, substr) {
+    const lastIndex = str.lastIndexOf(substr);
+    if (lastIndex === -1) {
+        return str;
+    }
+    return str.slice(0, lastIndex) + str.slice(lastIndex + substr.length);
+}
+
+function replaceLast(str, search, replace) {
+    const lastIndex = str.lastIndexOf(search);
+    if (lastIndex === -1) {
+        return str; 
+    }
+    return str.slice(0, lastIndex) + replace + str.slice(lastIndex + search.length);
+}
+
+function updateAvatar2(){
+    var text = "";
+    var counter = 1;
+    const groupLabels = document.querySelectorAll('td h2');
+    groupLabels.forEach(label => {
+        if(label.style.color === 'red'){
+            // alert(label.style.color);
+            text += `Gruppe 0${counter}, `;
+            counter++;
+        }
+    });
+    text = removeLast(text, ",");
+    text = replaceLast(text, ",", " und");
+    var textOut = "Es müssen noch " + text + "erledigt werden!";
+
+    var bubble = document.getElementById('bubble');
+    bubble.textContent = textOut;
+    // alert(textOut);
+}
 
 window.onload = function() {
     if (!sessionStorage.getItem('reloaded')) {
@@ -231,4 +272,5 @@ window.onload = function() {
     } else {
         sessionStorage.removeItem('reloaded');
     }
+    updateAvatar2();
 }
