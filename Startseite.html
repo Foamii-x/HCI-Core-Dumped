@@ -57,11 +57,13 @@
         .button-container {
             text-align: right;
         }
-        .errorMessage {
-            display: none;
-        }
         .password-container {
             position: relative;
+        }
+        .passwordInput{
+            /* width: 100%; */
+            padding-right: 80px;
+            /* box-sizing: border-box; */
         }
         .password-container .eye-icon {
             position: absolute;
@@ -69,6 +71,9 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
+        }
+        .errorMessage {
+            display: none;
         }
 
         .eye-icon {
@@ -116,7 +121,7 @@
                 <td><label for="passwort">Password:</label></td>
                 <td>
                     <div class="password-container">
-                        <input type="password" id="passwort" name="passwort">
+                        <input type="password" id="passwort" name="passwort" class="passwordInput">
                         <div type="button" class="eye-icon" id="togglePassword" onmouseover="showPassword()" onmouseout="hidePassword()">
                             <div class="circle"></div>
                             <div class="arc"></div>

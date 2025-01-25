@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(img);
 
     var bubble = document.createElement('div');
+    bubble.id = "speechBubble";
     bubble.classList.add('speech-bubble');
 
     var closeButton = document.createElement('div');
@@ -44,20 +45,37 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(bubble);
         document.body.removeChild(closeButton);
     });
-    document.body.appendChild(closeButton);
+    
+    // var assignment03Key = `Group${groupNumber}_${kurs}_filesBySection_Assignment 03`;
+    // var assignment03Files = localStorage.getItem(assignment03Key);
+
+    // if (assignment03Files) {
+    //     bubble.textContent = 'Assignment 03 wurde hochgeladen.';
+    // } else {
+    //     bubble.textContent = 'Assignment 03 wurde noch nicht hochgeladen.';
+    // }
 
     var currentDate = new Date();
     var dueDate = new Date('2025-02-01T23:59:59');
     var timeDifference = dueDate - currentDate;
-
+    
     var daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     var hoursRemaining = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
+    
     bubble.textContent = `Du hast noch ${daysRemaining} Tage und ${hoursRemaining} Stunden Zeit für Assignment 03`;
-
+    
     document.body.appendChild(bubble);
+    document.body.appendChild(closeButton);
 
 });
+
+function updateAvatar(){
+    var bubble = document.getElementById('speechBubble');
+    if (sessionStorage.getItem(`kursStatus_${kurs}`)) {
+        bubble.textContent = 'Assignment 03 wurde hochgeladen.';
+    } 
+    // sessionStorage.setItem('uploaded', 'true');
+}
 
 function zurück(){
     window.location.href = sessionStorage.getItem('letzteSeiteK');
@@ -228,6 +246,9 @@ uploadSections.forEach((section) => {
             downloadBtn.style.pointerEvents = 'auto';
             downloadBtn.style.opacity = '1';
         }
+        // sessionStorage.setItem('uploaded', 'true');
+        sessionStorage.setItem(`kursStatus_${kurs}`, true);
+        updateAvatar();
     });
 
     fileInput.addEventListener('change', (e) => {
@@ -247,6 +268,9 @@ uploadSections.forEach((section) => {
     uploadZone.addEventListener('click', () => {
         if (!isInProgress) return;
         fileInput.click();
+        // sessionStorage.setItem('uploaded', 'true');
+        sessionStorage.setItem(`kursStatus_${kurs}`, true);
+        updateAvatar();
     });
 
     downloadBtn.addEventListener('click', () => {
@@ -276,4 +300,5 @@ window.onload = function() {
     } else {
         sessionStorage.removeItem('reloaded');
     }
+    updateAvatar();
 }
