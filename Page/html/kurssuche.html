@@ -144,6 +144,41 @@
             }
         }
 
+        .logout-container {
+            position: fixed !important;
+            top: 30px !important;
+            right: 40px !important;
+            z-index: 1000 !important;
+        }
+        
+        .logout-button {
+            position: relative !important;
+            padding: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .logout-image {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #0078d7;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-button:hover {
+            transform: scale(1.1);
+            background-color: #0056b3;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .logout-button:active {
+            background-color: #003d80;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
 
 
 
@@ -159,6 +194,11 @@
         </table>
     </div>
     <p></p>
+    <div class="logout-container">
+        <button class="logout-button" onclick="window.location.href='../../Startseite.html';">
+            <img src="../style/logout.jpg" alt="Logout" class="logout-image">
+        </button>
+    </div>
 
 
     <script>

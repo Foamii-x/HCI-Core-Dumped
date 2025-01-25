@@ -55,7 +55,48 @@
             background-color: #005bb5;
         }
         .button-container {
-            text-align: right; /* Button am rechten Rand ausrichten */
+            text-align: right;
+        }
+        .errorMessage {
+            display: none;
+        }
+        .password-container {
+            position: relative;
+        }
+        .password-container .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .eye-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .eye-icon .circle {
+            width: 8px;
+            height: 8px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+
+        .eye-icon .arc {
+            width: 24px;
+            height: 12px;
+            border: 2px solid black;
+            border-color: black transparent transparent transparent;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            left: 0;
         }
     </style>
 </head>
@@ -63,13 +104,29 @@
     <header>WebSSO Anmelden</header>
     <div class="signin">
         <table>
-            <tr class="form-group">
+            <tr>
                 <td><label for="name">LUH-ID:</label></td>
                 <td><input type="text" id="name" name="name"></td>
             </tr>
-            <tr class="form-group">
+            <tr>
+                <td></td>
+                <td colspan="2"><span id="errorName" class="errorMessage">Benutzer gibt es nicht</span></td>
+            </tr>
+            <tr>
                 <td><label for="passwort">Password:</label></td>
-                <td><input type="password" id="passwort" name="passwort"></td>
+                <td>
+                    <div class="password-container">
+                        <input type="password" id="passwort" name="passwort">
+                        <div type="button" class="eye-icon" id="togglePassword" onmouseover="showPassword()" onmouseout="hidePassword()">
+                            <div class="circle"></div>
+                            <div class="arc"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2"><span id="errorPassword" class="errorMessage">Passwort ist falsch</span></td>
             </tr>
             <tr class="button-container">
                 <td colspan="2" style="text-align: right;">
@@ -79,6 +136,17 @@
         </table>
     </div>
     <script>
+        var users = {
+        "Max": { password: "123", role: "tutor" },
+        "Tim": { password: "456", role: "tutor" },
+        "Peter": { password: "789", role: "tutor" },
+        "Simone": { password: "101", role: "tutor" },
+        "Anna": { password: "202", role: "normal" },
+        "Lukas": { password: "303", role: "normal" },
+        "Maria": { password: "404", role: "normal" },
+        "Jonas": { password: "505", role: "normal" }
+        };
+
         function öffnen(){
             var url = window.location.href;
             var newUrl = url.substring(0, url.lastIndexOf('/')) + "/page/html/kurssuche.html";
@@ -86,13 +154,44 @@
             var name = document.getElementById('name').value;
             var password = document.getElementById('passwort').value;
             var user;
-            if(name === "Max" && password === "123"){
-                user = "tutor";
-            } else {
-                user = "normal";
+            var nameField = document.getElementById('name');
+            var passwordField = document.getElementById('passwort');
+            nameField.style.background = '#ffffff';
+            passwordField.style.background = '#ffffff';
+
+            var errorName = document.getElementById('errorName');
+            errorName.style.display = 'none';
+            var errorPassword = document.getElementById('errorPassword');
+            errorPassword.style.display = 'none';
+            if(name === "" || !users[name]){
+                nameField.style.background = '#ff6666';
+                errorName.style.display = 'block';
+                return;
             }
-            sessionStorage.setItem('user', user);
-            window.location.href = newUrl; 
+            if(password === ""){
+                passwordField.style.background = '#ff6666';
+                errorPassword.style.display = 'block';
+                return;
+            }
+
+            if(users[name] && users[name].password === password){
+                user = users[name].role;
+                sessionStorage.setItem('user', user);
+                window.location.href = newUrl; 
+            } else if(!(users[name].password === password)){
+                passwordField.style.background = '#ff6666';
+                errorPassword.style.display = 'block';
+            }
+        }
+
+        function showPassword(){
+            var passwordField = document.getElementById('passwort');
+            passwordField.type = 'text';
+        }
+
+        function hidePassword(){
+            var passwordField = document.getElementById('passwort');
+            passwordField.type = 'password';
         }
     </script>
 </body>
