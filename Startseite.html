@@ -177,6 +177,7 @@
             if(users[name] && users[name].password === password){
                 user = users[name].role;
                 sessionStorage.setItem('user', user);
+                sessionStorage.setItem('name', name);
                 window.location.href = newUrl; 
             } else if(!(users[name].password === password)){
                 passwordField.style.background = '#ff6666';
