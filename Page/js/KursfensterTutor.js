@@ -1,8 +1,8 @@
 var kurs = sessionStorage.getItem('kurs');
 var assignment = sessionStorage.getItem('Assignment');
-
-if(!localStorage.getItem(`Group1_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group1_${kurs}_pointsBySection_${assignment}`, "9");
-if(!localStorage.getItem(`Group2_${kurs}_pointsBySection_${assignment}`)) localStorage.setItem(`Group2_${kurs}_pointsBySection_${assignment}`, "10");
+console.log(assignment);
+if((!localStorage.getItem(`Group1_${kurs}_pointsBySection_${assignment}` && assignment === 'Assignment 01'))) localStorage.setItem(`Group1_${kurs}_pointsBySection_Assignment 01`, "9");
+if((!localStorage.getItem(`Group2_${kurs}_pointsBySection_${assignment}` && assignment === 'Assignment 01'))) localStorage.setItem(`Group2_${kurs}_pointsBySection_Assignment 01`, "10");
 
 document.addEventListener('DOMContentLoaded', function() {
     var titel = document.querySelector('h1');
@@ -85,7 +85,8 @@ function getFilesFromLocalStorage(sectionId) {
         return new File([blob], name, { type });
     });
 }
-
+saveEvaluationToLocalStorage('1',new File(["Bewertung für A1"], "Bewertung_A1.txt"));
+saveEvaluationToLocalStorage('2',new File(["Bewertung für A1"], "Bewertung_A1.txt"));
 const uploadSections = document.querySelectorAll('.upload-section');
 
 // Abgaben getrennt speichern
