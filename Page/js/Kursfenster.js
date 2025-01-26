@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateAvatar(){
     var bubble = document.getElementById('speechBubble');
-    if (localStorage.getItem(`kursStatus_${kurs}`)) {
+    if (localStorage.getItem(`kursStatus_${kurs}_${groupNumber}`)) {
         bubble.textContent = 'Assignment 03 wurde hochgeladen.';
         localStorage.setItem(`${kurs}_Abgabe_${groupNumber}`, "true");
     } 
