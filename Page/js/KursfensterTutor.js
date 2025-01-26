@@ -76,21 +76,6 @@ function getEvaluationsFromLocalStorage(sectionId) {
         return new File([blob], name, { type });
     });
 }
-// function saveFileToLocalStorage(sectionId, file) {
-//     const reader = new FileReader();
-//     reader.onload = function(event) {
-//         const fileData = {
-//             name: file.name,
-//             type: file.type,
-//             size: file.size,
-//             content: arrayBufferToBase64(event.target.result) //Datei als Base64 codieren
-//         };
-//         let files = [];
-//         files.push(fileData);
-//         localStorage.setItem(`Group${sectionId}_${kurs}_filesBySection_${assignment}`, JSON.stringify(files));
-//     };
-//     reader.readAsArrayBuffer(file);
-// }
 
 function getFilesFromLocalStorage(sectionId) {
     const files = JSON.parse(localStorage.getItem(`Group${sectionId}_${kurs}_filesBySection_${assignment}`)) || [];
@@ -104,27 +89,6 @@ function getFilesFromLocalStorage(sectionId) {
 
 const uploadSections = document.querySelectorAll('.upload-section');
 
-// Abgaben getrennt speichern
-// const filesBySection = {
-//     1: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
-//     2: [new File(["Bewertung für A2"], "Bewertung_A2.txt")],
-//     3: [],
-//     4: []
-// };
-// const downloadBySection = {
-//     1: [new File(["Abgabe A2, Gruppe 1"], "Assignment2.txt")],
-//     2: [new File(["Abgabe A2, Gruppe 2"], "Assignment2.txt")],
-//     3: [new File(["Abgabe A2, Gruppe 3"], "Assignment2.txt")],
-//     4: [new File(["Abgabe A2, Gruppe 4"], "Assignment2.txt")]
-// };
-
-// const pointsBySection = {
-//     1: 9, // 9 von 10 Punkte für Assignment 1
-//     2: 10, // Assignment 2 noch nicht bewertet
-//     3: null, // Noch keine Punkte
-//     4: null  // Noch keine Punkte
-// };
-
 // Initialisierung der Upload- und Download-Funktionalität
 uploadSections.forEach((section) => {
     const sectionId = parseInt(section.dataset.section);
@@ -134,7 +98,21 @@ uploadSections.forEach((section) => {
     const fileInput = section.querySelector('.file-input');
     const pointsInput = section.querySelector('input[type="number"]');
     const groupLabel = section.querySelector('td h2'); // Gruppenbeschriftung
+    
+    function updateDownloadBox() {
+        const files = getFilesFromLocalStorage(sectionId);
+        if (files.length > 0) {
+            downloadBtn.classList.add('available');
+            downloadBtn.classList.remove('unavailable');
+        } else {
+            downloadBtn.classList.add('unavailable');
+            downloadBtn.classList.remove('available');
+        }
+    }
 
+    // Initiale Prüfung beim Laden der Seite
+    updateDownloadBox();
+    
     const storedFiles = getEvaluationsFromLocalStorage(sectionId);
     if(storedFiles.length > 0){
         groupLabel.style.color = 'green';
@@ -229,9 +207,6 @@ uploadSections.forEach((section) => {
             }
         }
     });
-    // if(!checkbox.checked){
-    //     sessionStorage.setItem(`${grouplabel}`, true);
-    // }
 });
 
 function removeLast(str, substr) {
@@ -270,6 +245,7 @@ function updateAvatar2(){
     var textOut;
     if(redCount === 0){
         textOut = "Alle Abgaben wurden bewertet!";
+        localStorage.setItem(`${kurs}_Bewertung_${assignment}`, "true");
     } else if(redCount === 1){
         textOut = `Es muss noch ${text} bewertet werden`;
     } else{

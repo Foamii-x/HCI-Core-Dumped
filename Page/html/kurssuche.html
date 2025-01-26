@@ -281,11 +281,93 @@
             
             var user = sessionStorage.getItem('user');
             if(user === "tutor"){
-                bubble.textContent = "Grundlagen der Mensch Computer Interaktion neue Uploads verfügbar";
-                bubble.addEventListener('click', () => {
-                    sessionStorage.setItem('kurs', "Grundlagen der Mensch Computer Interaktion");
-                    öffnen();
-                });
+                if(localStorage.getItem(`Grundlagen der Mensch Computer Interaktion_allesBewertet`) != "true"){
+                    bubble.textContent = "Grundlagen der Mensch Computer Interaktion neue Uploads verfügbar";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Grundlagen der Mensch Computer Interaktion");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Diskrete Strukturen_allesBewertet`) != "true"){
+                    bubble.textContent = "Diskrete Strukturen ist als nächstes Abzugeben!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Diskrete Strukturen");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Logik und formale Systeme_allesBewertet`) != "true"){
+                    bubble.textContent = "Logik und formale Systeme neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Logik und formale Systeme");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Datenstrukturen und Algorithmen_allesBewertet`) != "true"){
+                    bubble.textContent = "Datenstrukturen und Algorithmen neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Datenstrukturen und Algorithmen");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Mathe 1_allesBewertet`) != "true"){
+                    bubble.textContent = "Mathe 1 neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Mathe 1");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Elektrotechnik_allesBewertet`) != "true"){
+                    bubble.textContent = "Elektrotechnik neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Elektrotechnik");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Grundlagen der Softwaretechnik_allesBewertet`) != "true"){
+                    bubble.textContent = "Grundlagen der Softwaretechnik neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Grundlagen der Softwaretechnik");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Grundlagen digitaler Systeme_allesBewertet`) != "true"){
+                    bubble.textContent = "Grundlagen digitaler Systeme neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Grundlagen digitaler Systeme");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Grundlagen der IT-Sicherheit_allesBewertet`) != "true"){
+                    bubble.textContent = "Grundlagen der IT-Sicherheit neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Grundlagen der IT-Sicherheit");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Programmieren 2_allesBewertet`) != "true"){
+                    bubble.textContent = "Programmieren 2 neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Programmieren 2");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Grundlagen theoretischer Informatik_allesBewertet`) != "true"){
+                    bubble.textContent = "Grundlagen theoretischer Informatik neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Grundlagen theoretischer Informatik");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Grundlagen der Rechnerarchitektur_allesBewertet`) != "true"){
+                    bubble.textContent = "Grundlagen der Rechnerarchitektur neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Grundlagen der Rechnerarchitektur");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Mathe 2 Interaktion_allesBewertet`) != "true"){
+                    bubble.textContent = "Mathe 2 neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Mathe 2");
+                        öffnen();
+                    });
+                } else if(localStorage.getItem(`Programmieren 1 Interaktion_allesBewertet`) != "true"){
+                    bubble.textContent = "Programmieren 1 neue Uploads verfügbar!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('kurs', "Programmieren 1");
+                        öffnen();
+                    });
+                } else {
+                    bubble.textContent = "Alle möglichen zu bewertenden Abgaben erledigt!";
+                }
             } else if(user === "normal"){
                 if(localStorage.getItem(`Grundlagen der Mensch Computer Interaktion_Abgabe_${groupNumber}`) != "true"){
                     bubble.textContent = "Grundlagen der Mensch Computer Interaktion ist als nächstes Abzugeben!";

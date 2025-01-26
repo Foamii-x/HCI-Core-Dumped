@@ -225,7 +225,8 @@
 
     <script>
         var kurse = ["Assignment 01", "Assignment 02", "Assignment 03", "Assignment 04", "Assignment 05", "Assignment 06", "Assignment 07", "Assignment 08", "Assignment 09", "Assignment 10", "Assignment 11"];
-    
+        var kurs = sessionStorage.getItem('kurs');
+        console.log(kurs);
         const suchFeld = document.getElementById('suchFeld');
         suchFeld.addEventListener('input', (suche) => {
             update(suche.target.value);
@@ -275,7 +276,14 @@
                 input.style.background = '';
             }
         }
-
+        function hasUploads(assignment){
+            console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_${assignment}`));
+            for(var i = 1; i <= 4; i++){
+                console.log(localStorage.getItem(`Group${i}_${kurs}_filesBySection_${assignment}`));
+                if(localStorage.getItem(`Group${i}_${kurs}_filesBySection_${assignment}`) != null) return true;
+            }
+            return false;
+        }
         function showAvatar(){
             var img = document.createElement('img');
             img.src = '../style/avatar.png';
@@ -296,16 +304,44 @@
             document.body.appendChild(closeButton);
 
             var user = sessionStorage.getItem('user');
+            console.log(user);
             if(user === "tutor"){
-                bubble.textContent = "Assignment 01 sind noch unbewertete Abgaben!";
+                console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_Assignment 01`));
+                console.log(localStorage.getItem(`Group1_${kurs}_filesBySection_Assignment 02`));
+
+                if((localStorage.getItem(`${kurs}_Bewertung_Assignment 01`) != "true" && hasUploads('Assignment 01') === true)) {
+                    bubble.textContent = "Assignment 01 sind noch unbewertete Abgaben!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('Assignment', "Assignment 01");
+                        öffnen();
+                    });
+                }else if(localStorage.getItem(`${kurs}_Bewertung_Assignment 02`) != "true" && hasUploads('Assignment 02') === true) {
+                    bubble.textContent = "Assignment 02 sind noch unbewertete Abgaben!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('Assignment', "Assignment 02");
+                        öffnen();
+                    });
+                }else if(localStorage.getItem(`${kurs}_Bewertung_Assignment 03`) != "true" && hasUploads('Assignment 03') === true) {
+                    bubble.textContent = "Assignment 03 sind noch unbewertete Abgaben!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('Assignment', "Assignment 03");
+                        öffnen();
+                    });
+                }else if(localStorage.getItem(`${kurs}_Bewertung_Assignment 04`) != "true" && hasUploads('Assignment 04') === true) {
+                    bubble.textContent = "Assignment 04 sind noch unbewertete Abgaben!";
+                    bubble.addEventListener('click', () => {
+                        sessionStorage.setItem('Assignment', "Assignment 04");
+                        öffnen();
+                    });
+                } else{
+                    bubble.textContent = `Alle Abgaben in ${kurs} bewertet!`;
+                    localStorage.setItem(`${kurs}_allesBewertet`, "true");
+                }
             } else {
                 bubble.textContent = "Error";
             }
 
-            bubble.addEventListener('click', () => {
-                sessionStorage.setItem('Assignment', "Assignment 01");
-                öffnen();
-            });
+            
             document.body.appendChild(bubble);
         }
 

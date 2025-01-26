@@ -20,6 +20,15 @@ hr {
     line-height: 20px; 
     /* font-size: 16px;  */
 }
+.download-box.available {
+    border: 3px solid green; /* Wenn Dateien verfügbar sind */
+    background-color: #e6ffe6; /* Optionaler Hintergrundfarbwechsel */
+}
+
+.download-box.unavailable {
+    border: 3px solid red; /* Wenn keine Dateien verfügbar sind */
+    background-color: #ffe6e6; /* Optionaler Hintergrundfarbwechsel */
+}
 .download-box:hover {
     background-color: #0056b3;
     cursor: pointer;
