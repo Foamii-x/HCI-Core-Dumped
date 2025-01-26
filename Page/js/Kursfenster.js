@@ -292,7 +292,7 @@ uploadSections.forEach((section) => {
             checkbox.checked = true;
             downloadBtn.style.pointerEvents = 'auto';
             downloadBtn.style.opacity = '1';
-            localStorage.setItem(`kursStatus_${kurs}`, true);
+            localStorage.setItem(`kursStatus_${kurs}_${groupNumber}`, true);
             updateAvatar();
         }
         // sessionStorage.setItem('uploaded', 'true');
@@ -310,7 +310,7 @@ uploadSections.forEach((section) => {
             checkbox.checked = true;
             downloadBtn.style.pointerEvents = 'auto';
             downloadBtn.style.opacity = '1';
-            localStorage.setItem(`kursStatus_${kurs}`, true);
+            localStorage.setItem(`kursStatus_${kurs}_${groupNumber}`, true);
             updateAvatar();
         }
     });
