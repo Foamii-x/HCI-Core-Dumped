@@ -282,13 +282,13 @@
             var user = sessionStorage.getItem('user');
             if(user === "tutor"){
                 if(localStorage.getItem(`Grundlagen der Mensch Computer Interaktion_allesBewertet`) != "true"){
-                    bubble.textContent = "Grundlagen der Mensch Computer Interaktion neue Uploads verfügbar";
+                    bubble.textContent = "Grundlagen der Mensch Computer Interaktion neue Uploads verfügbar!";
                     bubble.addEventListener('click', () => {
                         sessionStorage.setItem('kurs', "Grundlagen der Mensch Computer Interaktion");
                         öffnen();
                     });
                 } else if(localStorage.getItem(`Diskrete Strukturen_allesBewertet`) != "true"){
-                    bubble.textContent = "Diskrete Strukturen ist als nächstes Abzugeben!";
+                    bubble.textContent = "Diskrete Strukturen neue Uploads verfügbar!";
                     bubble.addEventListener('click', () => {
                         sessionStorage.setItem('kurs', "Diskrete Strukturen");
                         öffnen();
